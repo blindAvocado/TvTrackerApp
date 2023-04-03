@@ -67,7 +67,7 @@ export const changeShowStatus = async (req, res) => {
       await UserModel.findByIdAndUpdate(
         req.userId,
         {
-          $set: {
+          $push: {
             watchedShows: {
               show: req.params.showId,
               watchStatus: req.body.status,
@@ -169,7 +169,7 @@ export const rateEpisode = async (req, res) => {
       await UserModel.findByIdAndUpdate(
         req.userId,
         {
-          $set: {
+          $push: {
             watchedEpisodes: {
               episode: req.params.episodeId,
               rating: req.body.rating,
