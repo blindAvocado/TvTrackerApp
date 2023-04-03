@@ -24,11 +24,15 @@ export const getFollowers = async (req, res) => {};
 
 export const getFollowersFeed = async (req, res) => {};
 
-export const getShows = async (req, res) => {};
-
 export const getUserComments = async (req, res) => {};
 
 export const getUserLists = async (req, res) => {};
+
+export const getUserShows = async (req, res) => {};
+
+export const getUserEpisodes = async (req, res) => {};
+
+export const getUserShowEpisodes = async (req, res) => {};
 
 export const getShowStatuses = async (req, res) => {
   try {
@@ -261,3 +265,9 @@ export const uncheckEpisode = async (req, res) => {
 };
 
 export const checkSeason = async (req, res) => {};
+
+export const uncheckSeason = async (req, res) => {};
+
+export const favoriteShow = async (req, res) => {};
+
+export const favoriteEpisode = async (req, res) => {};
