@@ -51,6 +51,7 @@ const UserSchema = new mongoose.Schema(
         watchStatus: { type: String, enum: ["Watching", "Going to", "Stopped", "Watched all"] },
         rating: { type: Number, default: 0 },
         isFavorite: { type: Boolean, default: false },
+        watchedDate: { type: Date, default: Date.now },
       },
     ],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],

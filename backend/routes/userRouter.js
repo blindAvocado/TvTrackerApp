@@ -2,6 +2,7 @@ import { Router } from "express";
 import checkAuth from "../utils/checkAuth.js";
 import * as UserController from "../controllers/UserController.js";
 import * as AuthController from "../controllers/AuthController.js";
+import User from "../models/User.js";
 
 const router = Router();
 
@@ -65,7 +66,7 @@ router.delete("/shows/:showId/remove", checkAuth, UserController.removeShowFromW
 router.patch("/shows/:showId/rate", checkAuth, UserController.rateShow);
 router.patch("/episodes/:episodeId/rate", checkAuth, UserController.rateEpisode);
 router.patch("/episodes/:episodeId/check", checkAuth, UserController.checkEpisode);
-router.patch("/episodes/:episodeId/uncheck", checkAuth);
+router.patch("/episodes/:episodeId/uncheck", checkAuth, UserController.uncheckEpisode);
 router.patch("/shows/:showId/episodes/check", checkAuth, UserController.checkSeason);
 router.patch("/shows/:showId/episodes/uncheck", checkAuth);
 

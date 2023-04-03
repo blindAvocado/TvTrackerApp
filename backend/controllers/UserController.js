@@ -111,12 +111,10 @@ export const removeShowFromWatched = async (req, res) => {
         message: "Show successfully removed from watched",
       });
     });
-
-    res.json({ message: "Watch status updated" });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Could not change show status",
+      message: "Could not remove show from watched",
     });
   }
 };
@@ -199,10 +197,10 @@ export const rateEpisode = async (req, res) => {
 
 export const checkEpisode = async (req, res) => {
   try {
-    await UserModel.findByIdAndUpdate(
-      req.userId,
+    const user = await UserModel.findOneAndUpdate(
+      { _id: req.userId, "watchedEpisodes.episode": { $ne: req.params.episodeId } },
       {
-        $set: {
+        $push: {
           watchedEpisodes: {
             episode: req.params.episodeId,
           },
@@ -222,7 +220,6 @@ export const checkEpisode = async (req, res) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500).json({
           message: "Could not check an episode",
         });
@@ -231,6 +228,34 @@ export const checkEpisode = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Could not check an episode",
+    });
+  }
+};
+
+export const uncheckEpisode = async (req, res) => {
+  try {
+    await UserModel.findOneAndUpdate(
+      { _id: req.userId, "watchedEpisodes.episode": req.params.episodeId },
+      { $pull: { watchedEpisodes: { episode: req.params.episodeId } } }
+    )
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            message: "Episode not found",
+          });
+        }
+
+        res.json({ message: "Episode successfully removed from watched" });
+      })
+      .catch((err) => {
+        return res.status(404).json({
+          message: "Could not remove episode from watched",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not remove episode from watched",
     });
   }
 };
