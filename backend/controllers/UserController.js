@@ -63,20 +63,30 @@ export const changeShowStatus = async (req, res) => {
         },
       },
       { upsert: true, new: true }
-    )
-      .then((doc) => {
-        if (!doc) {
-          return res.status(404).json({
-            message: "Show not found",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          message: "Could not change show status",
-        });
-      });
+    ).catch(async (err) => {
+      await UserModel.findByIdAndUpdate(
+        req.userId,
+        {
+          $set: {
+            watchedShows: {
+              show: req.params.showId,
+              watchStatus: req.body.status,
+            },
+          },
+        },
+        { upsert: true, new: true }
+      )
+        .then((doc) => {
+          if (!doc) {
+            return res.status(404).json({
+              message: "User not found",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    });
+
+    return res.json({ message: `Show status successfully changed to ${req.body.status}` });
   } catch (err) {
     console.log(err);
     res.status(500).json({
