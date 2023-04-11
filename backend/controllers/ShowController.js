@@ -84,7 +84,42 @@ export const remove = async (req, res) => {
   }
 };
 
-export const update = async (req, res) => {};
+export const update = async (req, res) => {
+  try {
+    const showId = req.params.id;
+
+    ShowModel.findByIdAndUpdate(showId, {
+      title: req.body.title,
+      description: req.body.description,
+      genres: req.body.genres,
+      network: req.body.network,
+      dateStarted: req.body.dateStarted,
+      dateEnded: req.body.dateEnded,
+      averageRuntime: req.body.averageRuntime,
+      imdbId: req.body.imdbId,
+      thetvdb: req.body.thetvdb,
+      status: req.body.status,
+      country: req.body.country,
+      image: req.body.image,
+    })
+      .then(() => {
+        res.json({
+          message: "success",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          message: "Could not update a show",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not update a show",
+    });
+  }
+};
 
 export const getById = async (req, res) => {
   try {
@@ -130,7 +165,7 @@ export const getEpisodes = async (req, res) => {
       });
     }
 
-    res.json({ episodes });
+    res.json(episodes);
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -160,9 +195,131 @@ export const getEpisodesCount = async (req, res) => {
   }
 };
 
+export const getSeasons = async (req, res) => {
+  try {
+    const episodes = await EpisodeModel.find({ show: req.params.id }).exec();
+
+    let seasons = [];
+
+    episodes.forEach((episode) => {
+      const found = seasons.some((el) => el.season === episode.season);
+      if (!found) {
+        seasons.push({ season: episode.season, episodes: [episode] });
+      } else {
+        const index = seasons.findIndex((el) => el.season === episode.season);
+        seasons[index].episodes.push(episode);
+      }
+    });
+
+    res.json(seasons);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve seasons",
+    });
+  }
+};
+
+export const getSeasonsCount = async (req, res) => {
+  try {
+    const episode = await EpisodeModel.findOne({ show: req.params.id }).sort({ createdAt: -1 }).exec();
+
+    if (!episode) {
+      return res.status(404).json({
+        count: "0",
+      });
+    }
+
+    res.json({
+      count: episode.season,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Could not retrieve seasons count",
+    });
+  }
+};
+
+export const getSeasonEpisodes = async (req, res) => {
+  try {
+    const episodes = await EpisodeModel.find({ show: req.params.id, season: req.params.number }).exec();
+
+    if (episodes.length === 0) {
+      return res.status(404).json({
+        message: `Season ${req.params.number} episodes not found`,
+      });
+    }
+
+    res.json(episodes);
+  } catch (err) {
+    res.status(500).json({
+      message: "Could not retrieve season episodes",
+    });
+  }
+};
+
+export const getSeasonEpisode = async (req, res) => {
+  try {
+    const episode = await EpisodeModel.findOne({
+      show: req.params.id,
+      season: req.params.number,
+      number: req.params.episodeNum,
+    }).exec();
+
+    if (!episode) {
+      return res.status(404).json({
+        message: `Season ${req.params.number} episode ${req.params.episodeNum} not found`,
+      });
+    }
+
+    res.json(episode);
+  } catch (err) {
+    res.status(500).json({
+      message: "Could not retrieve season episodes",
+    });
+  }
+};
+
+export const updateSeasonEpisode = async (req, res) => {
+  try {
+    EpisodeModel.findOneAndUpdate(
+      {
+        show: req.params.id,
+        season: req.params.number,
+        number: req.params.episodeNum,
+      },
+      {
+        tvmazeId: req.body.tvmazeId,
+        name: req.body.name,
+        runtime: req.body.runtime,
+        airdate: req.body.airdate,
+        summary: req.body.summary,
+        type: req.body.type,
+        image: req.body.image,
+      }
+    )
+      .then(() => {
+        res.json({
+          message: "success",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          message: "Could not update an episode",
+        });
+      });
+  } catch (err) {
+    res.status(500).json({
+      message: "Could not retrieve season episodes",
+    });
+  }
+};
+
 export const getAllShows = async (req, res) => {
   try {
-    const shows = await ShowModel.find().populate("episodes").exec();
+    const shows = await ShowModel.find().exec();
+    // const shows = await ShowModel.find().populate("episodes").exec();
 
     if (shows.length === 0) {
       return res.status(404).json({

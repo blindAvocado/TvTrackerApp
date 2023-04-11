@@ -68,3 +68,43 @@ export const createComment = async (req, res) => {};
 export const deleteComment = async (req, res) => {};
 
 export const getEpisodeComments = async (req, res) => {};
+
+export const getEpisodes = async (req, res) => {
+  try {
+    const episodes = await EpisodeModel.find().exec();
+
+    if (episodes.length === 0) {
+      return res.status(404).json({
+        messages: "Episodes not found",
+      });
+    }
+
+    res.json(episodes);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve episodes",
+    });
+  }
+};
+
+export const getEpisodesCount = async (req, res) => {
+  try {
+    const episodes = await EpisodeModel.find().exec();
+
+    if (episodes.length === 0) {
+      return res.status(404).json({
+        count: "0",
+      });
+    }
+
+    res.json({
+      count: episodes.length,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve episodes",
+    });
+  }
+};

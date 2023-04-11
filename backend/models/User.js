@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
       default: "USER",
     },
     avatarUrl: String,
-    activity: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    activity: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     favoriteShows: [{ type: mongoose.Schema.Types.ObjectId, ref: "Show" }],
     favoriteEpisodes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Episode" }],

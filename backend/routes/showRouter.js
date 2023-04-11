@@ -4,54 +4,33 @@ import * as EpisodeController from "../controllers/EpisodeController.js";
 
 const router = Router();
 
-// #region Show
-
-// http://localhost:4444/api/shows/ - Получить все сериалы из ДБ с эпизодами
-router.get("/", ShowController.getAllShows);
-router.post("/");
+// Show
 
 // http://localhost:4444/api/shows/tvmaze - Добавить сериал и эпизоды в ДБ из TVMaze
 router.post("/tvmaze", ShowController.createExternal);
 
-// http://localhost:4444/api/shows/count - Получить количество сериалов в ДБ
+router.get("/", ShowController.getAllShows);
 router.get("/count", ShowController.getAllShowsCount);
-
-// http://localhost:4444/api/shows/:imdbId - Получить сериал по imdb ID
 router.get("/:imdbId");
-
-// http://localhost:4444/api/shows/:id - Сериал по ObjectId 
 router.get("/:id", ShowController.getById);
-router.patch("/:id");
+router.patch("/:id", ShowController.update);
 router.delete("/:id");
 
-// #endregion
+// Seasons
+router.get("/:id/seasons", ShowController.getSeasons);
+router.get("/:id/seasons/count", ShowController.getSeasonsCount);
+router.get("/:id/seasons/:number", ShowController.getSeasonEpisodes);
 
-// #region Seasons
-
-// http://localhost:4444/api/shows/:id/seasons - Получить количество сезонов
-router.get("/:id/seasons");
-
-// http://localhost:4444/api/shows/:id/seasons/:number - Получить серии в сезоне 
-router.get("/:id/seasons/:number");
-
-// #endregion
-
-// #region Episodes
-
-// http://localhost:4444/api/shows/:id/episodes - Серии в сериале
+// Episodes
 router.get("/:id/episodes", ShowController.getEpisodes);
-router.post("/:id/episodes");
-
 router.get("/:id/episodes/count", ShowController.getEpisodesCount);
 
 // http://localhost:4444/api/shows/tvmaze - Добавить эпизоды в ДБ из TVMaze (DEV only)
 router.post("/:id/episodes/tvmaze", EpisodeController.createExternal);
 
 // http://localhost:4444/api/shows/:id/episodes/:episodeNum
-router.get("/:id/seasons/:number/episode/:episodeNum");
-router.patch("/:id/seasons/:number/episode/:episodeNum");
-router.delete("/:id/seasons/:number/episode/:episodeNum");
-
-// #endregion
+router.get("/:id/seasons/:number/episodes/:episodeNum", ShowController.getSeasonEpisode);
+router.patch("/:id/seasons/:number/episodes/:episodeNum", ShowController.updateSeasonEpisode);
+router.delete("/:id/seasons/:number/episodes/:episodeNum");
 
 export default router;

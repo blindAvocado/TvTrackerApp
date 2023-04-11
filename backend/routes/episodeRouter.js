@@ -6,10 +6,10 @@ const router = Router();
 //* Episodes
 
 // http://localhost:4444/api/episodes
-router.get("/");
+router.get("/", EpisodeController.getEpisodes);
 
 // http://localhost:4444/api/episodes/count
-router.get("/count");
+router.get("/count", EpisodeController.getEpisodesCount);
 
 // http://localhost:4444/api/episodes/:episodeId/comments
 router.get("/:episodeId/comments");

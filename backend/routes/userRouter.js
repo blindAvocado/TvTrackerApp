@@ -1,16 +1,10 @@
 import { Router } from "express";
-import checkAuth from "../utils/checkAuth.js";
+import checkAuth from "../middleware/checkAuth.js";
 import * as UserController from "../controllers/UserController.js";
 import * as AuthController from "../controllers/AuthController.js";
 import User from "../models/User.js";
 
 const router = Router();
-
-// Auth
-router.post("/register", AuthController.register);
-router.post("/login", AuthController.login);
-router.post("/logout", checkAuth, AuthController.logout);
-router.get("/me", checkAuth, AuthController.getMe);
 
 // User
 router.get("/", UserController.getAllUsers);
