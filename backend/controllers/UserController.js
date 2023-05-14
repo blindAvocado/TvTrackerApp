@@ -255,12 +255,13 @@ export const checkEpisode = async (req, res) => {
     const userShow = await UserModel.findOne({ _id: req.userId, "watchedShows.show": episode.show });
     if (!userShow) {
       console.log("Сериал не отмечен, надо добавить в смотрю");
-      await UserModel.findByIdAndUpdate(req.userId,
+      await UserModel.findByIdAndUpdate(
+        req.userId,
         {
           $push: {
             watchedShows: {
-              show: userShow,
-              watchStatus: req.body.status,
+              show: episode.show,
+              watchStatus: "Watching",
             },
           },
         },
