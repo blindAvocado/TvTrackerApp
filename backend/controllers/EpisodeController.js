@@ -69,7 +69,7 @@ export const deleteComment = async (req, res) => {};
 
 export const getEpisodeComments = async (req, res) => {};
 
-export const getEpisodes = async (req, res) => {
+export const getAllEpisodes = async (req, res) => {
   try {
     const episodes = await EpisodeModel.find().exec();
 
@@ -88,7 +88,7 @@ export const getEpisodes = async (req, res) => {
   }
 };
 
-export const getEpisodesCount = async (req, res) => {
+export const getAllEpisodesCount = async (req, res) => {
   try {
     const episodes = await EpisodeModel.find().exec();
 

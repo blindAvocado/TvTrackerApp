@@ -20,6 +20,44 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+export const getUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id).exec();
+
+    if (!user) {
+      return res.status(404).json({
+        messages: "User not found",
+      });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not get user by ID",
+    });
+  }
+};
+
+export const getUserIdByUsername = async (req, res) => {
+  try {
+    const user = await UserModel.find({ username: req.params.username }).exec();
+
+    if (!user) {
+      return res.status(404).json({
+        messages: "User not found",
+      });
+    }
+
+    res.json(user._id);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not get user ID by username",
+    });
+  }
+};
+
 export const getFollowers = async (req, res) => {};
 
 export const getFollowersFeed = async (req, res) => {};
@@ -36,7 +74,7 @@ export const getUserShowEpisodes = async (req, res) => {};
 
 export const getShowStatuses = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.userId, {
+    const user = await UserModel.findById(req.params.id, {
       "watchedShows._id": 0,
       "watchedShows.rating": 0,
       "watchedShows.isFavorite": 0,
