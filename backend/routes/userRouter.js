@@ -1,7 +1,7 @@
 import { Router } from "express";
 import checkAuth from "../middleware/checkAuth.js";
 import checkAdmin from "../middleware/checkAdmin.js";
-import checkUser from "../middleware/checkUser.js";
+// import checkUser from "../middleware/checkUser.js";
 import * as UserController from "../controllers/UserController.js";
 import * as AuthController from "../controllers/AuthController.js";
 import User from "../models/User.js";
@@ -11,6 +11,7 @@ const router = Router();
 // User
 router.get("/", UserController.getAllUsers);
 router.get("/:id", UserController.getUser);
+router.get("/name/:username", UserController.getUserIdByUsername);
 router.patch("/:id");
 router.delete("/:id");
 
