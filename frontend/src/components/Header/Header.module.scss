@@ -28,39 +28,6 @@
   max-width: 100%;
 }
 
-.header__nav {
-}
-
-.header__list {
-  display: flex;
-  align-items: center;
-  /* gap: 30px; */
-  list-style: none;
-}
-
-.header__list-item {
-  display: flex;
-  align-items: center;
-}
-
-.header__list-item:not(:first-child)::before {
-  content: "|";
-  margin: 0 10px;
-  font-size: 16px;
-  line-height: 16px;
-  color: var(--border-color);
-}
-
-.header__item-link {
-  text-decoration: none;
-  color: #dbdbdb;
-  transition: color 0.3s;
-}
-
-.header__item-link:hover {
-  color: var(--white-color);
-}
-
 .header__right {
   display: flex;
   align-items: center;
@@ -69,7 +36,7 @@
   height: var(--header-height);
 }
 
-.header__right.search-active {
+.header__right.searchActive {
   flex-grow: 2;
   max-width: 100%;
 }
@@ -81,16 +48,16 @@
   width: 100%;
 }
 
-.header__search.search-active .header__search-form {
+.header__search.searchActive .header__searchForm {
   display: block;
   width: 100%;
 }
 
-.header__search-form {
+.header__searchForm {
   display: none;
 }
 
-.header__search-input {
+.header__searchInput {
   width: 100%;
   box-shadow: none;
   border-radius: 10px;
@@ -102,11 +69,11 @@
   font-size: 13px;
 }
 
-.header__search-input::placeholder {
+.header__searchInput::placeholder {
   color: var(--border-color);
 }
 
-.header__search-btn {
+.header__searchBtn {
   position: absolute;
   top: 10px;
   right: 185px;
@@ -121,58 +88,58 @@
   cursor: pointer;
 }
 
-.header__search-btn svg {
+.header__searchBtn svg {
   width: 20px;
   height: 20px;
 }
 
-.header__search-btn svg path {
+.header__searchBtn svg path {
   fill: var(--white-color);
 }
 
-.header .profile__user {
+.profile__user {
   cursor: pointer;
   position: relative;
 }
 
-.header .profile__user:hover .profile__dropdown {
+.profile__user:hover .profile__dropdown {
   display: block;
 }
 
-.header .profile__user-container {
+.profile__userContainer {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.header .profile__avatar {
+.profile__avatar {
   width: 24px;
   height: 24px;
 }
 
-.header .profile__avatar img {
+.profile__avatar img {
   max-width: 100%;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.header .profile__username {
+.profile__username {
 }
 
-.header .profile__username::after {
+.profile__username::after {
 }
 
-.header .profile__user-container .icon {
+.profile__userContainer .icon {
   display: flex;
 }
 
-.header .profile__user-container .icon svg {
+.profile__userContainer .icon svg {
   width: 12px;
   height: 12px;
   fill: var(--white-color);
 }
 
-.header .profile__dropdown {
+.profile__dropdown {
   display: none;
   background-color: var(--dark-background);
   position: absolute;
@@ -182,34 +149,34 @@
   padding: 10px 0;
 }
 
-.header .profile__dropdown-list {
+.profile__dropdownList {
   list-style: none;
   display: flex;
   flex-direction: column;
 }
 
-.header .profile__list-item {
+.profile__listItem {
 }
 
-.header .profile__list-item.profile {
+.profile__listItem.profile {
   margin: 0 15px;
   padding-top: 3px;
   padding-bottom: 9px;
 }
 
-.header .profile__list-item.profile a {
+.profile__listItem.profile a {
   text-decoration: none;
   color: var(--white-color);
 }
 
-.header .profile__list-item.divider {
+.profile__listItem.divider {
   width: 100%;
   height: 1px;
   background: var(--content-background);
   margin: 5px 0;
 }
 
-.header .profile__list-item .profile__link {
+.profile__listItem .profile__link {
   display: block;
   text-decoration: none;
   color: var(--white-color);
@@ -217,11 +184,11 @@
   padding: 10px 15px;
 }
 
-.header .profile__list-item .profile__link:hover {
+.profile__listItem .profile__link:hover {
   background: var(--content-background);
 }
 
-.header .login a {
+.login a {
   display: block;
   text-decoration: none;
   color: var(--white-color);
@@ -229,6 +196,6 @@
   padding: 0 20px;
 }
 
-.header.login a:hover {
+.login a:hover {
   background-color: var(--border-color);
 }

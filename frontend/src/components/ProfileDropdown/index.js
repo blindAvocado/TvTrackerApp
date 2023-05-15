@@ -1,15 +1,16 @@
 import React from "react";
-import "./style.scss";
+
+import styles from "./ProfileDropdown.module.scss";
 
 export const ProfileDropdown = () => {
   return (
-    <div className="profile__user">
-      <div className="profile__user-container">
-        <div className="profile__avatar">
+    <div className={styles.profile__user}>
+      <div className={styles.profile__userContainer}>
+        <div className={styles.profile__avatar}>
           <img src="img/Kirk.webp" alt="user avatar" />
         </div>
-        <div className="profile__username">blindAvocado</div>
-        <div className="icon">
+        <div className={styles.profile__username}>blindAvocado</div>
+        <div className={styles.icon}>
           {/* <svg
             fill="#000000"
             height="30px"
@@ -28,16 +29,16 @@ export const ProfileDropdown = () => {
           </svg> */}
         </div>
       </div>
-      <div className="profile__dropdown">
-        <ul className="profile__dropdown-list">
-          <li className="profile__list-item profile">
+      <div className={styles.profile__dropdown}>
+        <ul className={styles.profile__dropdownList}>
+          <li className={`${styles.profile__listItem} ${styles.profile}`}>
             <a href="profile.html">
-              <div className="profile__user-container">
-                <div className="profile__avatar">
+              <div className={styles.profile__userContainer}>
+                <div className={styles.profile__avatar}>
                   <img src="img/Kirk.webp" alt="user avatar" />
                 </div>
-                <div className="profile__username">blindAvocado</div>
-                <div className="icon">
+                <div className={styles.profile__username}>blindAvocado</div>
+                <div className={styles.icon}>
                   {/* <svg
                     fill="#000000"
                     height="30px"
@@ -60,35 +61,35 @@ export const ProfileDropdown = () => {
               </div>
             </a>
           </li>
-          <li className="profile__list-item divider"></li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={`${styles.profile__listItem} ${styles.divider}`}></li>
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Сериалы
             </a>
           </li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Журнал
             </a>
           </li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Списки
             </a>
           </li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Избранное
             </a>
           </li>
-          <li className="profile__list-item divider"></li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={`${styles.profile__listItem} ${styles.divider}`}></li>
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Настройки
             </a>
           </li>
-          <li className="profile__list-item">
-            <a href="/" className="profile__link">
+          <li className={styles.profile__listItem}>
+            <a href="/" className={styles.profile__link}>
               Выйти
             </a>
           </li>

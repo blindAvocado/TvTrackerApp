@@ -1,0 +1,90 @@
+.profile__user {
+  cursor: pointer;
+  position: relative;
+}
+
+.profile__user:hover .profile__dropdown {
+  display: block;
+}
+
+.profile__userContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile__avatar {
+  width: 24px;
+  height: 24px;
+}
+
+.profile__avatar img {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile__username {
+}
+
+.profile__username::after {
+}
+
+.profile__userContainer .icon {
+  display: flex;
+}
+
+.profile__userContainer .icon svg {
+  width: 12px;
+  height: 12px;
+  fill: var(--white-color);
+}
+
+.profile__dropdown {
+  display: none;
+  background-color: var(--dark-background);
+  position: absolute;
+  left: -15px;
+  top: -13px;
+  box-shadow: inset 0 0 0 hsla(0, 0%, 100%, 0.35), 0 0 10px #000;
+  padding: 10px 0;
+}
+
+.profile__dropdownList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__listItem {
+}
+
+.profile__listItem.profile {
+  margin: 0 15px;
+  padding-top: 3px;
+  padding-bottom: 9px;
+}
+
+.profile__listItem.profile a {
+  text-decoration: none;
+  color: var(--white-color);
+}
+
+.profile__listItem.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--content-background);
+  margin: 5px 0;
+}
+
+.profile__listItem .profile__link {
+  display: block;
+  text-decoration: none;
+  color: var(--white-color);
+  font-size: 13px;
+  padding: 10px 15px;
+}
+
+.profile__listItem .profile__link:hover {
+  background: var(--content-background);
+}

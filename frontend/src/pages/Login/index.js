@@ -2,19 +2,19 @@ import React from "react";
 
 import { LoginForm } from "../../components";
 
-import "./style.scss";
+import styles from "./Login.module.scss";
 
 export const Login = () => {
   return (
-    <div className="auth" style={{ paddingTop: "100px" }}>
-      <div className="auth__wrapper">
-        <div className="auth__header">С возвращением!</div>
+    <div className={styles.auth} style={{ paddingTop: "100px" }}>
+      <div className={styles.auth__wrapper}>
+        <div className={styles.auth__header}>С возвращением!</div>
         <LoginForm />
-        <div className="auth__actions">
-          <div className="auth__link">
+        <div className={styles.auth__actions}>
+          <div className={styles.auth__link}>
             Еще нет профиля? <a href="/">Зарегистрируйтесь.</a>
           </div>
-          <div className="auth__link">
+          <div className={styles.auth__link}>
             <a href="/">Забыли пароль?</a>
           </div>
         </div>

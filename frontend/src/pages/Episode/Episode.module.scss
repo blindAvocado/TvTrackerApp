@@ -1,0 +1,124 @@
+.episode {
+  display: flex;
+  color: var(--white-color);
+}
+
+.episode__show {
+  text-decoration: none;
+  color: var(--info-color);
+  font-size: 14px;
+}
+
+.episode__show:hover {
+  color: var(--white-color);
+}
+
+.episode .left {
+  flex: 0 0 70%;
+}
+.episode .episode__wrapper {
+}
+
+.episode__title {
+  font-family: var(--font-family);
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.episode__thumbnail {
+  height: 350px;
+}
+
+.episode__thumbnail img {
+  object-position: center;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.episode__actions {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.episode__checkbox {
+  flex: 0 0 5%;
+  display: flex;
+  align-items: center;
+}
+
+.episodeCheck {
+  display: flex;
+  border: 1px solid var(--info-color);
+  background: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.episode__fav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 5%;
+}
+
+.episode__fav button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.episode__info {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.episode__infoItem {
+  display: flex;
+  padding: 5px 0;
+}
+
+.episode__infoLabel {
+  flex: 0 0 50%;
+  color: var(--info-color);
+}
+
+.episode__infoValue {
+  flex: 0 0 50%;
+}
+
+.episode .right {
+  flex: 0 0 30%;
+}
+
+.episode .right__wrapper {
+  padding: 10px;
+}
+
+.neighbourEpisodes {
+  padding-left: 50px;
+}
+
+.neighbour__title {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.neighbour__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 15px;
+}

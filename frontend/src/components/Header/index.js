@@ -1,24 +1,25 @@
 import React from "react";
 import { ReactSVG } from "react-svg";
-import "./style.scss";
+
+import styles from "./Header.module.scss";
 
 import { Logo, Nav, ProfileDropdown } from "../../components";
 
 export const Header = () => {
   return (
-    <header className="header">
+    <header className={styles.header}>
       <div className="container">
-        <div className="header__wrapper">
-          <div className="header__left">
+        <div className={styles.header__wrapper}>
+          <div className={styles.header__left}>
             <Logo />
             <Nav />
           </div>
-          <div className="header__right">
-            <div className="header__search">
-              <form className="header__search-form">
-                <input className="header__search-input" placeholder="Найти сериалы" type="text" />
+          <div className={styles.header__right}>
+            <div className={styles.header__search}>
+              <form className={styles.header__searchForm}>
+                <input className={styles.header__searchInput} placeholder="Найти сериалы" type="text" />
               </form>
-              <button className="header__search-btn" onclick="openSearch(this)">
+              <button className={styles.header__searchBtn} onclick="openSearch(this)">
                 <svg width="30px" height="30px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
                   <path
                     fill="#000000"

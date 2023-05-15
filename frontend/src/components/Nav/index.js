@@ -1,19 +1,19 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-import "./style.scss";
+import styles from "./Nav.module.scss";
 
 export const Nav = () => {
   return (
-    <nav className="header__nav">
-      <ul className="header__list">
-        <li className="header__list-item">
-          <a href="/" className="header__item-link">
+    <nav className={styles.header__nav}>
+      <ul className={styles.header__list}>
+        <li className={styles.header__listItem}>
+          <a href="/" className={styles.header__itemLink}>
             Сериалы
           </a>
         </li>
-        <li className="header__list-item">
-          <a href="/" className="header__item-link">
+        <li className={styles.header__listItem}>
+          <a href="/" className={styles.header__itemLink}>
             Списки
           </a>
         </li>

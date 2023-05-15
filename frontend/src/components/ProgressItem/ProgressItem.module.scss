@@ -1,0 +1,16 @@
+.profile__statsProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile__progressContainer {
+  height: 3px;
+  margin-top: 2px;
+  background-color: var(--border-color);
+}
+
+.profile__progressValue {
+  height: 100%;
+  background-color: var(--accent-color);
+}

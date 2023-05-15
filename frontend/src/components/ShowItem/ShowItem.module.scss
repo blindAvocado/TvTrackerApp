@@ -1,5 +1,5 @@
 .profile {
-  &__show-item {
+  &__showItem {
     display: flex;
     gap: 20px;
 
@@ -8,7 +8,7 @@
     }
   }
 
-  &__show-thumb {
+  &__showThumb {
     width: 130px;
     height: 70px;
     overflow: hidden;
@@ -21,32 +21,32 @@
     }
   }
 
-  &__show-info {
+  &__showInfo {
     flex: 1 0 auto;
   }
 
-  &__show-header {
+  &__showHeader {
     display: flex;
   }
 
-  &__show-title {
+  &__showTitle {
     text-decoration: none;
     color: var(--white-color);
     margin-right: 5px;
     line-height: 1.5;
   }
 
-  &__show-rating {
+  &__showRating {
     margin-top: 5px;
   }
 
-  &__show-progress {
+  &__showProgress {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
   }
 
-  &__show-progress-label {
+  &__showProgressLabel {
     margin-left: auto;
     font-size: 12px;
 
@@ -55,19 +55,19 @@
     }
   }
 
-  &__show-progress-container {
+  &__showProgressContainer {
     height: 3px;
     margin-top: 2px;
     background-color: var(--border-color);
   }
 
-  &__show-progress-value {
+  &__showProgressValue {
     height: 100%;
     background-color: var(--accent-color);
   }
 }
 
-.show-dead {
+.showDead {
   display: flex;
   align-items: center;
   justify-content: center;

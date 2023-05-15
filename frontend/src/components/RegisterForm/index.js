@@ -1,9 +1,10 @@
 import React from "react";
-import "./style.scss";
+
+import styles from "./RegisterForm.module.scss";
 
 export const RegisterForm = () => {
   return (
-    <form className="auth__form" action="#">
+    <form className={styles.auth__form} action="#">
       <input type="text" placeholder="Имя пользователя" />
       <input placeholder="Email" type="email" />
       <input placeholder="Пароль" type="password" />

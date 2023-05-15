@@ -1,0 +1,264 @@
+.tvshow {
+  display: flex;
+  gap: 15px;
+  color: var(--white-color);
+}
+
+.left {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.leftWrapper {
+}
+
+.poster {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.poster img {
+}
+
+.poster .heart {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.poster .heart:hover {
+  background-color: #fff;
+}
+
+.statusBox {
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 10px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.status__selector {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  left: 30px;
+  top: 24px;
+  box-shadow: 1px 1px 0px 0px var(--border-color);
+}
+
+.statusList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.statusOption {
+  padding: 15px 10px 15px 50px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.statusOption:last-child {
+  border: none;
+}
+
+.statusOption input {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+.statusOption label {
+  cursor: pointer;
+}
+
+
+.right {
+  flex-grow: 1;
+}
+
+.rightWrapper {
+  padding: 10px;
+}
+
+.show__title {
+  font-family: var(--font-family);
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.show__year {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--info-color);
+}
+
+.show__desc {
+  max-width: 70%;
+  margin-bottom: 20px;
+}
+
+.show_technicals {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  max-width: 70%;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.show__technical {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.techincal__label {
+  flex: 0 0 40%;
+  border-bottom: 1px dotted var(--info-color);
+}
+
+.techincal__label span {
+  /* background-color: var(--dark-background); */
+  line-height: 1.1;
+  font-size: 12px;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--link-color);
+}
+
+.techincal__value {
+}
+
+.show__links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.show__link a {
+  text-decoration: none;
+  font-size: 11px;
+  border-radius: 2px;
+  padding: 4px 5px 3px;
+  color: var(--info-color);
+  border: 2px solid var(--border-color);
+}
+
+.show__link a:hover {
+  color: var(--white-color);
+  border-color: var(--info-color);
+}
+
+.episodes {
+  margin-top: 20px;
+}
+
+.episodes__header {
+  font-family: var(--font-family);
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.episodes__wrapper {
+  border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.episodes__list {
+  list-style: none;
+  padding: 0 10px;
+}
+
+.episode {
+}
+
+.episode__wrapper {
+  display: flex;
+  padding: 10px 0;
+  /* border: 1px solid var(--border-color); */
+  /* border-radius: 5px; */
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.episode:last-child .episode__wrapper {
+  border: none;
+}
+
+.episode__number {
+  flex: 0 0 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.episode__info {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.episode__title {
+  text-decoration: none;
+  color: var(--color-white);
+}
+
+.episode__date {
+  /* margin-top: 3px; */
+  font-size: 15px;
+  color: var(--info-color);
+}
+
+.episode__fav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 5%;
+}
+
+.episode__fav button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+.episode__checkbox {
+  flex: 0 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.episodeCheck {
+  display: flex;
+  border: 1px solid var(--info-color);
+  background: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+}

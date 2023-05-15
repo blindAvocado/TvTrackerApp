@@ -1,15 +1,16 @@
 import React from "react";
-import "./style.scss";
+
+import styles from "./FriendCard.module.scss";
 
 export const FriendCard = ({ username, epsCount }) => {
   return (
-    <div className="profile__friend-container">
-      <div className="profile__friend-avatar">
+    <div className={styles.profile__friendContainer}>
+      <div className={styles.profile__friendAvatar}>
         <img src="img/Kirk.webp" alt="avatar" />
       </div>
-      <div className="profile__friend-info">
-        <div className="profile__friend-username">{username}</div>
-        <div className="profile__friend-stats">{epsCount} episodes</div>
+      <div className={styles.profile__friendInfo}>
+        <div className={styles.profile__friendUsername}>{username}</div>
+        <div className={styles.profile__friendStats}>{epsCount} episodes</div>
       </div>
     </div>
   );

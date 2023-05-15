@@ -1,9 +1,10 @@
 import React from "react";
-import "./style.scss";
+
+import styles from "./LoginForm.module.scss";
 
 export const LoginForm = () => {
   return (
-    <form className="auth__form" action="#">
+    <form className={styles.auth__form} action="#">
       <input placeholder="Email" type="email" />
       <input placeholder="Пароль" type="password" />
       <button type="submit">Войти</button>

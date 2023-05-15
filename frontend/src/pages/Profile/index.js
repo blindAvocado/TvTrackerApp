@@ -1,38 +1,38 @@
 import React from "react";
-import { FriendCard, ProgressItem, ShowItem, ShowsTabList } from "../../components";
+import { FriendCard, ProgressItem, ShowItem, ShowsTabItem } from "../../components";
 
-import "./style.scss";
+import styles from "./Profile.module.scss";
 
 export const Profile = ({username}) => {
   return (
-    <div className="profile">
-      <div className="left">
-        <div className="profile-main__wrapper">
-          <div className="profile__info">
-            <div className="profile__username">{username}</div>
-            <div className="profile__details">
-              <div className="profile__avatar">
+    <div className={styles.profile}>
+      <div className={styles.left}>
+        <div className={styles.profileMain__wrapper}>
+          <div className={styles.profile__info}>
+            <div className={styles.profile__username}>{username}</div>
+            <div className={styles.profile__details}>
+              <div className={styles.profile__avatar}>
                 <img src="img/QIP Shot - Screen 213.png" alt="" />
               </div>
-              <div className="profile__stats">
+              <div className={styles.profile__stats}>
                 <ProgressItem num={6534} title={"episodes"} value={17} />
                 <ProgressItem num={3778} title={"hours"} value={15} />
                 <ProgressItem num={157} title={"days"} value={15} />
               </div>
             </div>
           </div>
-          <div className="profile__shows">
-            <div className="profile__shows-wrapper">
-              <div className="profile__shows-header">Сериалы</div>
-              <div className="profile__shows-tabs">
-                <div className="profile__tabs-wrapper">
-                  <ShowsTabList counter={10} label={"Смотрит"} isActive={true} />
-                  <ShowsTabList counter={30} label={"Будет"} isActive={true} />
-                  <ShowsTabList counter={5} label={"Перестал"} isActive={true} />
-                  <ShowsTabList counter={17} label={"Посмотрел"} isActive={true} />
+          <div className={styles.profile__shows}>
+            <div className={styles.profile__showsWrapper}>
+              <div className={styles.profile__showsHeader}>Сериалы</div>
+              <div className={styles.profile__showsTabs}>
+                <div className={styles.profile__tabsWrapper}>
+                  <ShowsTabItem counter={10} label={"Смотрит"} isActive={true} />
+                  <ShowsTabItem counter={30} label={"Будет"} isActive={true} />
+                  <ShowsTabItem counter={5} label={"Перестал"} isActive={true} />
+                  <ShowsTabItem counter={17} label={"Посмотрел"} isActive={true} />
                 </div>
               </div>
-              <div className="profile__shows-content">
+              <div className={styles.profile__showsContent}>
                 <div title="Watching">
                   <ShowItem />
                   <ShowItem />
@@ -43,46 +43,46 @@ export const Profile = ({username}) => {
           </div>
         </div>
       </div>
-      <div className="right">
-        <div className="right__wrapper">
-          <div className="profile__actions">
-            <div className="profile__actions-header">Профиль</div>
-            <ul className="profile__action-list">
-              <li className="profile__action-item">
-                <a href="#" className="profile__action-item-link">
+      <div className={styles.right}>
+        <div className={styles.right__wrapper}>
+          <div className={styles.profile__actions}>
+            <div className={styles.profile__actionsHeader}>Профиль</div>
+            <ul className={styles.profile__actionList}>
+              <li className={styles.profile__actionItem}>
+                <a href="#" className={styles.profile__actionItemLink}>
                   Полная статистика
                 </a>
               </li>
-              <li className="profile__action-item">
-                <a href="#" className="profile__action-item-link">
+              <li className={styles.profile__actionItem}>
+                <a href="#" className={styles.profile__actionItemLink}>
                   Мои списки
                 </a>
               </li>
-              <li className="profile__action-item">
-                <a href="#" className="profile__action-item-link">
+              <li className={styles.profile__actionItem}>
+                <a href="#" className={styles.profile__actionItemLink}>
                   Комментарии
                 </a>
               </li>
-              <li className="profile__action-item">
-                <a href="#" className="profile__action-item-link">
+              <li className={styles.profile__actionItem}>
+                <a href="#" className={styles.profile__actionItemLink}>
                   Настройки
                 </a>
               </li>
-              <li className="profile__action-item">
-                <a href="#" className="profile__action-item-link">
+              <li className={styles.profile__actionItem}>
+                <a href="#" className={styles.profile__actionItemLink}>
                   Выйти
                 </a>
               </li>
             </ul>
           </div>
-          <div className="profile__friends">
-            <div className="profile__friends-header">
-              <span className="profile__friends-title">Друзья</span>
-              <a href="#" className="profile__friends-link">
+          <div className={styles.profile__friends}>
+            <div className={styles.profile__friendsHeader}>
+              <span className={styles.profile__friendsTitle}>Друзья</span>
+              <a href="#" className={styles.profile__friendsLink}>
                 Все друзья
               </a>
             </div>
-            <div className="profile__friends-grid">
+            <div className={styles.profile__friendsGrid}>
               <FriendCard />
               <FriendCard />
               <FriendCard />

@@ -1,12 +1,13 @@
 import React from "react";
-import "./style.scss";
 
-export const ShowsTabList = ({counter, label, isActive}) => {
+import styles from "./ShowsTabItem.module.scss";
+
+export const ShowsTabItem = ({counter, label, isActive}) => {
   return (
-    <div className="profile__tab">
-      <div className="profile__tab-wrapper">
-        <div className="profile__tab-counter">{counter}</div>
-        <div className="profile__tab-label">{label}</div>
+    <div className={styles.profile__tab}>
+      <div className={styles.profile__tabWrapper}>
+        <div className={styles.profile__tabCounter}>{counter}</div>
+        <div className={styles.profile__tabLabel}>{label}</div>
       </div>
     </div>
   );
