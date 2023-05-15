@@ -1,0 +1,32 @@
+.profile__tab {
+  flex-grow: 1;
+  flex-basis: auto;
+  padding: 10px 0 15px;
+  cursor: pointer;
+
+  &.active {
+    border-bottom: 1px solid var(--white-color);
+  }
+
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid var(--border-color);
+  }
+
+  &:last-child .profile__tab-wrapper {
+    border: none;
+  }
+
+  &-counter {
+    font-size: 36px;
+    margin-bottom: 0px;
+  }
+
+  &-label {
+    font-size: 15px;
+    line-height: 10px;
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { EpisodeSidelistItem } from "../../components";
 
 export const Episode = ({showTitle, episodeTitle, thumbnail, isFavorite, rating, runtime, airDate, watchDate}) => {
   return (
@@ -44,6 +45,7 @@ export const Episode = ({showTitle, episodeTitle, thumbnail, isFavorite, rating,
             <div className="neighbour-episodes">
               <div className="neighbour__title">Эпизоды</div>
               <ul className="neighbour__list">
+                <EpisodeSidelistItem number={"1x1"} title={"Encounter at Farpoint"} isCurrent={true}/>
                 <li className="neighbour__item">
                   <span href="episode.html" className="neighbour__link current">
                     1x1 - Encounter at Farpoint

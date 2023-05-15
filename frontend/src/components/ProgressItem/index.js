@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.scss";
 
 export const ProgressItem = ({num, title, value}) => {
   return (

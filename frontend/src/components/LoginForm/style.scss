@@ -1,0 +1,32 @@
+.auth__form {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    border-radius: 6px;
+    height: 50px;
+    padding: 6px 12px;
+    margin: 4px 0;
+  }
+
+  button {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px 12px;
+    border: none;
+    line-height: 1.5;
+    font-weight: 700;
+    border-radius: 4px;
+    background-color: var(--accent-light-color);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--white-color);
+    margin-top: 4px;
+    font-size: 15px;
+
+    &:hover {
+      background-color: var(--white-color);
+      color: var(--accent-color);
+    }
+  }
+}

@@ -2,6 +2,8 @@ import React from "react";
 
 import { RegisterForm } from "../../components";
 
+import "./style.scss";
+
 export const Registration = () => {
   return (
     <div className="auth" style={{ paddingTop: "100px" }}>

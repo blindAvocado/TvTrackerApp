@@ -9,14 +9,18 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path=":username" element={<Profile />} />
-          <Route path=":register" element={<Registration />} />
-          <Route path=":login" element={<Login />} />
-          <Route path=":showName" element={<Show />} />
-          <Route path=":showName/:episodeNum" element={<Episode />} />
-        </Routes>
+        <div className="content">
+          <div className="container">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path=":username" element={<Profile />} />
+            <Route path="register" element={<Registration />} />
+            <Route path="login" element={<Login />} />
+            <Route path="show/:showName" element={<Show />} />
+            <Route path="show/:showName/:episodeNum" element={<Episode />} />
+          </Routes>
+          </div>
+        </div>
       </Layout>
     </div>
   );

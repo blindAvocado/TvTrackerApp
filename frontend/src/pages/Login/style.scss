@@ -1,0 +1,24 @@
+.auth {
+  max-width: 500px;
+  margin: 0 auto;
+  color: var(--white-color);
+}
+
+.auth__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth__header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.auth__actions {
+  margin-top: 10px;
+}
+
+.auth__link a {
+  text-decoration: none;
+  color: var(--accent-light-color);
+}

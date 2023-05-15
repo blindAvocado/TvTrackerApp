@@ -2,6 +2,8 @@ import React from "react";
 
 import { LoginForm } from "../../components";
 
+import "./style.scss";
+
 export const Login = () => {
   return (
     <div className="auth" style={{ paddingTop: "100px" }}>

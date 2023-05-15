@@ -1,6 +1,8 @@
 import React from "react";
+import { ReactSVG } from "react-svg";
+import "./style.scss";
 
-import { Logo, Nav, ProfileDropdown } from "../../components"
+import { Logo, Nav, ProfileDropdown } from "../../components";
 
 export const Header = () => {
   return (

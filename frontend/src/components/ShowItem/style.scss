@@ -1,0 +1,79 @@
+.profile {
+  &__show-item {
+    display: flex;
+    gap: 20px;
+
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+  }
+
+  &__show-thumb {
+    width: 130px;
+    height: 70px;
+    overflow: hidden;
+
+    img {
+      object-position: center;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &__show-info {
+    flex: 1 0 auto;
+  }
+
+  &__show-header {
+    display: flex;
+  }
+
+  &__show-title {
+    text-decoration: none;
+    color: var(--white-color);
+    margin-right: 5px;
+    line-height: 1.5;
+  }
+
+  &__show-rating {
+    margin-top: 5px;
+  }
+
+  &__show-progress {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &__show-progress-label {
+    margin-left: auto;
+    font-size: 12px;
+
+    span {
+      color: var(--accent-color);
+    }
+  }
+
+  &__show-progress-container {
+    height: 3px;
+    margin-top: 2px;
+    background-color: var(--border-color);
+  }
+
+  &__show-progress-value {
+    height: 100%;
+    background-color: var(--accent-color);
+  }
+}
+
+.show-dead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 15px;
+  padding: 0 3px;
+  font-size: 7px;
+  line-height: 5px;
+  background-color: rgb(75, 75, 75);
+}

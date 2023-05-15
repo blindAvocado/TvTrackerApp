@@ -1,6 +1,7 @@
 import React from "react";
+import "./style.scss";
 
-export const FriendCard = ({username, epsCount}) => {
+export const FriendCard = ({ username, epsCount }) => {
   return (
     <div className="profile__friend-container">
       <div className="profile__friend-avatar">

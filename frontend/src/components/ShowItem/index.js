@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.scss";
 
 export const ShowItem = ({title, airStatus, watchedCount, totalCount, rating}) => {
   return (

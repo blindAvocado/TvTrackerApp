@@ -1,0 +1,8 @@
+.neighbour__link {
+  text-decoration: none;
+  color: var(--white-color);
+
+  &.current {
+    color: var(--info-color);
+  }
+}

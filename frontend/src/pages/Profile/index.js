@@ -1,6 +1,8 @@
 import React from "react";
 import { FriendCard, ProgressItem, ShowItem, ShowsTabList } from "../../components";
 
+import "./style.scss";
+
 export const Profile = ({username}) => {
   return (
     <div className="profile">
