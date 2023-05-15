@@ -1,67 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { Layout } from "./components";
-import { Login, Registration, Profile, Show, Episode } from "./pages";
+import { apiAuth } from "./services/auth";
+
+import { Layout, Logout } from "./components";
+import { Login, Registration, Profile, profileLoader, Show, Episode, Shows } from "./pages";
 
 import "./App.css";
 
 function App() {
   const [user, setUser] = useState({ isLoggedIn: false });
 
-  const getUser = async () => {
-    if (!user.isLoggedIn && Cookies.get("access_token")) {
-      await fetch("http://localhost:4444/api/auth/me", {
-        credentials: "include",
-      })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-
-          return Promise.reject(res);
-        })
-        .then((data) => {
-          console.log(data);
-          setUser({ ...data, isLoggedIn: true });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
   useEffect(() => {
-    getUser();
-  });
+    const getUser = async () => {
+      if (!user.isLoggedIn && Cookies.get("access_token")) {
+        apiAuth
+          .getMe()
+          .then((res) => {
+            console.log(res);
+            setUser({ ...res, isLoggedIn: true });
+          })
+          .catch((err) => console.log(err));
+      }
+    };
 
-  return (
-    <div className="App">
-      <Layout>
-        <div className="content">
-          <div className="container">
-            <Routes>
-              {user.isLoggedIn ? <Route path="/" element={<Profile />} /> : <Route path="/" element={<Login />} />}
-              {user.isLoggedIn ? (
-                <Route path="login" element={<Profile />} />
-              ) : (
-                <Route path="login" element={<Login />} />
-              )}
-              {user.isLoggedIn ? (
-                <Route path="register" element={<Profile />} />
-              ) : (
-                <Route path="register" element={<Registration />} />
-              )}
-              <Route path=":username" element={<Profile />} />
-              <Route path="show/:showName" element={<Show />} />
-              <Route path="show/:showName/:episodeNum" element={<Episode />} />
-            </Routes>
-          </div>
-        </div>
-      </Layout>
-    </div>
+    getUser();
+
+    console.log(`isLoggedIn: ${user.isLoggedIn}`);
+
+  }, [user, setUser]);
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route element={<Layout user={user} />}>
+        <Route index path="/" element={<h1>MAIN PAGE</h1>} />
+        <Route path="login" element={<Login user={user} setUser={setUser} />} />
+        <Route path="register" element={<Registration user={user} setUser={setUser} />} />
+        <Route path="logout" element={<Logout />} />
+        <Route path="shows" element={<Shows />} />
+        <Route path="user/:username" element={<Profile />} loader={profileLoader} />
+        <Route path="show/:showName" element={<Show />} />
+        <Route path="show/:showName/:episodeNum" element={<Episode />} />
+        <Route path="*" element={<h1>404</h1>} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

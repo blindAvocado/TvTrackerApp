@@ -1,8 +1,9 @@
 import React from "react";
+import { ReactSVG } from "react-svg";
 
 import styles from "./Show.module.scss";
 
-export const Show = () => {
+export const Show = ({show}) => {
   return (
     <div className={styles.tvshow}>
       <div className={styles.left}>
@@ -78,10 +79,10 @@ export const Show = () => {
           </ul>
           <ul className={styles.show__links}>
             <li className={styles.show__link}>
-              <a href="#">IMDB</a>
+              <a href="/">IMDB</a>
             </li>
             <li className={styles.show__link}>
-              <a href="#">TVDB</a>
+              <a href="/">TVDB</a>
             </li>
           </ul>
           <div className={styles.episodes}>

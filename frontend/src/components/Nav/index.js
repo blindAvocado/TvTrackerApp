@@ -8,14 +8,14 @@ export const Nav = () => {
     <nav className={styles.header__nav}>
       <ul className={styles.header__list}>
         <li className={styles.header__listItem}>
-          <a href="/" className={styles.header__itemLink}>
+          <Link to="shows" className={styles.header__itemLink}>
             Сериалы
-          </a>
+          </Link>
         </li>
         <li className={styles.header__listItem}>
-          <a href="/" className={styles.header__itemLink}>
+          <Link to="lists" className={styles.header__itemLink}>
             Списки
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

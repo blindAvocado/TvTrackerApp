@@ -1,18 +1,27 @@
-import React from "react";
+import { useState } from "react";
 import { FriendCard, ProgressItem, ShowItem, ShowsTabItem } from "../../components";
+import { apiUser } from "../../services/user";
 
 import styles from "./Profile.module.scss";
 
-export const Profile = ({username}) => {
+import defaultAvatar from "../../img/user_default.jpg";
+import { useParams, useLoaderData } from "react-router-dom";
+
+export const Profile = () => {
+  const { username } = useParams();
+  const user = useLoaderData();
+
+  const {watchedShows, setWatchedShows} = useState({});
+
   return (
     <div className={styles.profile}>
       <div className={styles.left}>
         <div className={styles.profileMain__wrapper}>
           <div className={styles.profile__info}>
-            <div className={styles.profile__username}>{username}</div>
+            <div className={styles.profile__username}>{user.username}</div>
             <div className={styles.profile__details}>
               <div className={styles.profile__avatar}>
-                <img src="img/QIP Shot - Screen 213.png" alt="" />
+                <img src={user.avatarUrl ? user.avatarUrl : defaultAvatar} alt="user avatar" />
               </div>
               <div className={styles.profile__stats}>
                 <ProgressItem num={6534} title={"episodes"} value={17} />
@@ -92,4 +101,23 @@ export const Profile = ({username}) => {
       </div>
     </div>
   );
+};
+
+export const profileLoader = async ({ params }) => {
+  const { username } = params;
+
+  // console.log(typeof(username));
+  // console.log(resp);
+  const id = await apiUser.getIdByUsername(username);
+
+  console.log(username);
+  console.log(id);
+  console.log(!id);
+
+  if (id) {
+    const resp = await apiUser.getUserById(id);
+    return resp || null;
+  }
+
+  return null;
 };

@@ -1,12 +1,21 @@
 import React from "react";
+import { NavLink, Outlet } from "react-router-dom";
+
 import { Header, Footer } from "../../components";
 
-export const Layout = ({ children }) => {
+export const Layout = ({ children, user }) => {
+
+  console.log(user);
+
   return (
-    <React.Fragment>
-      <Header />
-      {children}
+    <div className="App">
+      <Header user={user} />
+      <main className="content">
+          <div className="container">
+            <Outlet />
+          </div>
+      </main>
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };

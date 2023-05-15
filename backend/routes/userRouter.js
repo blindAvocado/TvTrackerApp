@@ -56,7 +56,7 @@ router.delete("/:id/favorite/shows/:showId", checkAuth);
 router.get("/:id/favorite/episodes");
 router.delete("/:id/favorite/episodes/:episodeId", checkAuth);
 
-router.get("/:id/wasted");
+router.get("/:id/wasted", UserController.getWastedTime);
 
 //Manage
 router.get("/:id/follow", checkAuth, UserController.follow);

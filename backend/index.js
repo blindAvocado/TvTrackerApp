@@ -19,7 +19,7 @@ const app = express();
 const router = Router();
 
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true, exposedHeaders: ["access_token"] }));
 app.use(express.json());
 
 

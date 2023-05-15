@@ -1,5 +1,6 @@
 export * from "./Layout";
 export * from "./Header";
+export * from "./HeaderButton";
 export * from "./Logo";
 export * from "./Nav";
 export * from "./ProfileDropdown";
@@ -10,6 +11,7 @@ export * from "./EpisodeItem";
 export * from "./EpisodeSidelistItem";
 export * from "./LoginForm";
 export * from "./RegisterForm";
+export * from "./Logout";
 export * from "./FriendCard";
 export * from "./ShowsTabItem";
 export * from "./ProgressItem";

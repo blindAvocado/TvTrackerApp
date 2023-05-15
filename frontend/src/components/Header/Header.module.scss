@@ -32,7 +32,6 @@
   display: flex;
   align-items: center;
   gap: 30px;
-  position: relative;
   height: var(--header-height);
 }
 
@@ -46,11 +45,16 @@
   align-items: center;
   height: 30px;
   width: 100%;
+  position: relative;
 }
 
 .header__search.searchActive .header__searchForm {
   display: block;
   width: 100%;
+}
+
+.header__search.searchActive .header__nav {
+  display: none;
 }
 
 .header__searchForm {
@@ -75,8 +79,8 @@
 
 .header__searchBtn {
   position: absolute;
-  top: 10px;
-  right: 185px;
+  top: 1px;
+  right: 5px;
   border: none;
   padding: 0;
   background: none;
@@ -95,6 +99,12 @@
 
 .header__searchBtn svg path {
   fill: var(--white-color);
+}
+
+.header__btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .profile__user {

@@ -44,7 +44,7 @@ export const getUser = async (req, res) => {
 
 export const getUserIdByUsername = async (req, res) => {
   try {
-    const user = await UserModel.find({ username: req.params.username }).exec();
+    const user = await UserModel.findOne({ username: req.params.username }).exec();
 
     if (!user) {
       return res.status(404).json({
@@ -53,7 +53,7 @@ export const getUserIdByUsername = async (req, res) => {
     }
 
     res.json({
-      id: user[0]._id,
+      id: user._id,
     });
   } catch (err) {
     console.log(err);
@@ -349,3 +349,59 @@ export const uncheckSeason = async (req, res) => {};
 export const favoriteShow = async (req, res) => {};
 
 export const favoriteEpisode = async (req, res) => {};
+
+export const getWastedTime = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id)
+
+      .populate([{path: "watchedShows.show", select: "episodes averageRuntime"}, {path: "watchedEpisodes.episode", select: "runtime"}])
+      .exec();
+
+    if (!user) {
+      return res.status(404).json({
+        messages: "User not found",
+      });
+    }
+
+    const watchedShows = user.watchedShows;
+    const watchedEpisodes = user.watchedEpisodes;
+
+    let totalEpisodes = 0;
+    let totalMinutes = 0;
+
+    user.watchedShows?.forEach(item => {
+      totalEpisodes += item.show.episodes?.length;
+      totalMinutes += item.show.episodes?.length * item.show.averageRuntime;
+    });
+
+    const totalHours = Math.round(totalMinutes / 60);
+    const totalDays = Math.round(totalHours / 24);
+
+    let wastedEpisodes = watchedEpisodes.length;
+    let wastedMinutes = 0;
+
+    user.watchedEpisodes?.forEach(item => {
+      console.log(item);
+      wastedMinutes += item.episode?.runtime;
+    })
+
+    let wastedHours = Math.round(wastedMinutes / 60);
+    let wastedDays = Math.round(wastedHours / 24);
+
+    let result = {
+      watchedEpisodes: wastedEpisodes,
+      totalEpisode: totalEpisodes,
+      watchedHours: wastedHours,
+      totalHours: totalHours,
+      watchedDays: wastedDays,
+      totalDays: totalDays,
+    };
+
+    res.json({ ...result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not get wasted time",
+    });
+  }
+};
