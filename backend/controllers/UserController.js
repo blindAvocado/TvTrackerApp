@@ -385,12 +385,12 @@ export const getWastedTime = async (req, res) => {
       wastedMinutes += item.episode?.runtime;
     })
 
-    let wastedHours = Math.round(wastedMinutes / 60);
+    let wastedHours = Math.floor(wastedMinutes / 60);
     let wastedDays = Math.round(wastedHours / 24);
 
     let result = {
       watchedEpisodes: wastedEpisodes,
-      totalEpisode: totalEpisodes,
+      totalEpisodes: totalEpisodes,
       watchedHours: wastedHours,
       totalHours: totalHours,
       watchedDays: wastedDays,

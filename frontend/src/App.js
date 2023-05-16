@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { apiAuth } from "./services/auth";
 
 import { Layout, Logout } from "./components";
-import { Login, Registration, Profile, profileLoader, Show, Episode, Shows } from "./pages";
+import { Login, Registration, Profile, profileLoader, Show, Episode, Shows, showLoader, episodeLoader } from "./pages";
 
 import "./App.css";
 
@@ -40,8 +40,8 @@ function App() {
         <Route path="logout" element={<Logout />} />
         <Route path="shows" element={<Shows />} />
         <Route path="user/:username" element={<Profile />} loader={profileLoader} />
-        <Route path="show/:showName" element={<Show />} />
-        <Route path="show/:showName/:episodeNum" element={<Episode />} />
+        <Route path="show/:thetvdb/:episodeNum" element={<Episode />} loader={episodeLoader} />
+        <Route path="show/:thetvdb" element={<Show />} loader={showLoader} />
         <Route path="*" element={<h1>404</h1>} />
       </Route>
     )

@@ -1,9 +1,27 @@
 import React from "react";
+import { useLoaderData } from "react-router-dom";
 import { ReactSVG } from "react-svg";
+import { apiShow } from "../../services/show";
+
+import { ShowTechincals, EpisodeItem } from "../../components";
 
 import styles from "./Show.module.scss";
 
-export const Show = ({show}) => {
+export const Show = () => {
+  const show = useLoaderData();
+
+  show["yearStared"] = new Date(show.dateStarted).getFullYear();
+  show["yearEnded"] = new Date(show.dateEnded).getFullYear();
+
+  console.log(show);
+
+  const techincals = {
+    genres: show.genres.join(", "),
+    network: show.network,
+    averageRuntime: show.averageRuntime,
+    country: show.country,
+  };
+
   return (
     <div className={styles.tvshow}>
       <div className={styles.left}>
@@ -12,10 +30,7 @@ export const Show = ({show}) => {
             <div className={styles.heart}>
               <img src="img/heart-outline.svg" alt="fav" />
             </div>
-            <img
-              src="img/MV5BOWFhYjE4NzMtOWJmZi00NzEyLTg5NTctYmIxMTU1ZDIxMDAyXkEyXkFqcGdeQXVyNTE1NjY5Mg@@._V1_.jpg"
-              alt="tv show poster"
-            />
+            <img src={show.image.original} alt="tv show poster" />
           </div>
           <div className={styles.statusBox}>
             {/* <span className={styles.status__selector}></span> */}
@@ -45,107 +60,32 @@ export const Show = ({show}) => {
       <div className={styles.right}>
         <div className={styles.rightWrapper}>
           <h1 className={styles.show__title}>
-            Star Trek: The Next Generation <span className={styles.show__year}>1987–1994</span>
+            {show.title}{" "}
+            <span className={styles.show__year}>
+              {show.yearStared}–{show.yearEnded}
+            </span>
           </h1>
-          <p className={styles.show__desc}>
-            Set almost 100 years after Captain Kirk's 5-year mission, a new generation of Starfleet officers sets off in
-            the U.S.S. Enterprise-D on its own mission to go where no one has gone before.
-          </p>
-          <ul className={styles.show_technicals}>
-            <li className={styles.show__technical}>
-              <div className={styles.techincal__label}>
-                <span>Genres</span>
-              </div>
-              <div className={styles.techincal__value}>Sci-Fi, Action, Adventure</div>
-            </li>
-            <li className={styles.show__technical}>
-              <div className={styles.techincal__label}>
-                <span>Network</span>
-              </div>
-              <div className={styles.techincal__value}>Syndicate</div>
-            </li>
-            <li className={styles.show__technical}>
-              <div className={styles.techincal__label}>
-                <span>Average Runtime</span>
-              </div>
-              <div className={styles.techincal__value}>45 min.</div>
-            </li>
-            <li className={styles.show__technical}>
-              <div className={styles.techincal__label}>
-                <span>Country</span>
-              </div>
-              <div className={styles.techincal__value}>United States</div>
-            </li>
-          </ul>
+          <p className={styles.show__desc}>{show.description}</p>
+          <ShowTechincals props={techincals} />
           <ul className={styles.show__links}>
             <li className={styles.show__link}>
-              <a href="/">IMDB</a>
+              <a href={`https://www.imdb.com/title/${show.imdbId}/`} target="_blank" rel="noreferrer">
+                IMDB
+              </a>
             </li>
             <li className={styles.show__link}>
-              <a href="/">TVDB</a>
+              <a href={`https://www.thetvdb.com/dereferrer/series/${show.thetvdb}'`} target="_blank" rel="noreferrer">
+                TVDB
+              </a>
             </li>
           </ul>
           <div className={styles.episodes}>
             <div className={styles.episodes__header}>Список серий</div>
             <div className={styles.episodes__wrapper}>
               <ul className={styles.episodes__list}>
-                <li className={styles.episode}>
-                  <div className={styles.episode__wrapper}>
-                    <div className={styles.episode__number}>1x1</div>
-                    <div className={styles.episode__info}>
-                      <a href="/" className={styles.episode__title}>
-                        Encounter at Farpoint
-                      </a>
-                      <div className={styles.episode__date}>26 Sep. 1987</div>
-                    </div>
-                    <div className={styles.episode__fav}>
-                      <button>
-                        <img src="img/heart-svgrepo-com.svg" alt="favorite" />
-                      </button>
-                    </div>
-                    <div className={styles.episode__checkbox}>
-                      <button className={styles.episodeCheck}></button>
-                    </div>
-                  </div>
-                </li>
-                <li className={styles.episode}>
-                  <div className={styles.episode__wrapper}>
-                    <div className={styles.episode__number}>2</div>
-                    <div className={styles.episode__info}>
-                      <a href="/" className={styles.episode__title}>
-                        The Naked Now
-                      </a>
-                      <div className={styles.episode__date}>3 Oct. 1987</div>
-                    </div>
-                    <div className={styles.episode__fav}>
-                      <button>
-                        <img src="img/heart-svgrepo-com.svg" alt="favorite" />
-                      </button>
-                    </div>
-                    <div className={styles.episode__checkbox}>
-                      <button className={styles.episodeCheck}></button>
-                    </div>
-                  </div>
-                </li>
-                <li className={styles.episode}>
-                  <div className={styles.episode__wrapper}>
-                    <div className={styles.episode__number}>15x25</div>
-                    <div className={styles.episode__info}>
-                      <a href="/" className={styles.episode__title}>
-                        Code of Honor
-                      </a>
-                      <div className={styles.episode__date}>10 Oct. 1987</div>
-                    </div>
-                    <div className={styles.episode__fav}>
-                      <button>
-                        <img src="img/heart-svgrepo-com.svg" alt="favorite" />
-                      </button>
-                    </div>
-                    <div className={styles.episode__checkbox}>
-                      <button className={styles.episodeCheck}></button>
-                    </div>
-                  </div>
-                </li>
+                {show.episodes.map((item) => (
+                  <EpisodeItem key={item.tvmazeId} episode={item} />
+                ))}
               </ul>
             </div>
           </div>
@@ -153,4 +93,14 @@ export const Show = ({show}) => {
       </div>
     </div>
   );
+};
+
+export const showLoader = async ({ params }) => {
+  const { thetvdb } = params;
+
+  // console.log(typeof(username));
+  // console.log(resp);
+  const show = await apiShow.getByThetvdb(thetvdb);
+
+  return show || null;
 };

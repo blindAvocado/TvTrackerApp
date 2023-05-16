@@ -1,0 +1,75 @@
+.episode {
+}
+
+.episode__wrapper {
+  display: flex;
+  padding: 10px 0;
+  /* border: 1px solid var(--border-color); */
+  /* border-radius: 5px; */
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.episode:last-child .episode__wrapper {
+  border: none;
+}
+
+.episode__number {
+  flex: 0 0 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.episode__info {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.episode__title {
+  text-decoration: none;
+  color: var(--color-white);
+}
+
+.episode__date {
+  /* margin-top: 3px; */
+  font-size: 15px;
+  color: var(--info-color);
+}
+
+.episode__fav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 5%;
+}
+
+.episode__fav button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+.episode__checkbox {
+  flex: 0 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.episodeCheck {
+  display: flex;
+  border: 1px solid var(--info-color);
+  background: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+}

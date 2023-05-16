@@ -15,3 +15,5 @@ export * from "./Logout";
 export * from "./FriendCard";
 export * from "./ShowsTabItem";
 export * from "./ProgressItem";
+export * from "./ShowTechincals";
+export * from "./ShowTechincalItem";

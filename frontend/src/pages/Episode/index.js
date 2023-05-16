@@ -1,20 +1,28 @@
 import React from "react";
+import { Link, useLoaderData } from "react-router-dom";
 import { EpisodeSidelistItem } from "../../components";
+import { apiShow } from "../../services/show";
 
 import styles from "./Episode.module.scss";
 
-export const Episode = ({showTitle, episodeTitle, thumbnail, isFavorite, rating, runtime, airDate, watchDate}) => {
+export const Episode = () => {
+  const episode = useLoaderData();
+
+  console.log(episode);
+
   return (
     <>
-      <a href="tvshow.html" className={styles.episode__show}>
-        Star Trek: The Next Generation
-      </a>
+      <Link to={`/show/${episode.show.thetvdb}`} className={styles.episode__show}>
+        {episode.show.title}
+      </Link>
       <div className={styles.episode}>
         <div className={styles.left}>
           <div className={styles.episode__wrapper}>
-            <div className={styles.episode__title}>1x1 - Encounter at Farpoint</div>
+            <div className={styles.episode__title}>
+              {episode.season}x{episode.number} - {episode.name}
+            </div>
             <div className={styles.episode__thumbnail}>
-              <img src="img/1115712.jpg" alt="" />
+              <img src={episode.image.original} alt="episode thumbnail" />
             </div>
             <div className={styles.episode__actions}>
               <div className={styles.episode__checkbox}>
@@ -29,7 +37,7 @@ export const Episode = ({showTitle, episodeTitle, thumbnail, isFavorite, rating,
             <ul className={styles.episode__info}>
               <li className={styles.episode__infoItem}>
                 <div className={styles.episode__infoLabel}>Продолжительность</div>
-                <div className={styles.episode__infoValue}>90 мин.</div>
+                <div className={styles.episode__infoValue}>{episode.runtime} мин.</div>
               </li>
               <li className={styles.episode__infoItem}>
                 <div className={styles.episode__infoLabel}>Дата показа</div>
@@ -57,4 +65,14 @@ export const Episode = ({showTitle, episodeTitle, thumbnail, isFavorite, rating,
       </div>
     </>
   );
+};
+
+export const episodeLoader = async ({ params }) => {
+  const { thetvdb, episodeNum } = params;
+
+  const objId = await apiShow.getObjIdByThetvdb(thetvdb);
+
+  const episode = await apiShow.getEpisodeByNum(objId._id, episodeNum);
+
+  return episode || null;
 };

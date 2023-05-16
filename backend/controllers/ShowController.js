@@ -155,6 +155,65 @@ export const getByImdb = async (req, res) => {};
 
 export const getByTvmaze = async (req, res) => {};
 
+export const getByTvdb = async (req, res) => {
+  try {
+    const showId = req.params.id;
+
+    ShowModel.findOne({ thetvdb: showId })
+      .populate("episodes", { show: 0 })
+      .exec()
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            message: "Show not found",
+          });
+        }
+
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+          message: "Could not retrieve a show",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve a show",
+    });
+  }
+};
+
+export const getIdByThetvdb = async (req, res) => {
+  try {
+    const tvdb = req.params.id;
+
+    ShowModel.findOne({ thetvdb: tvdb }, { _id: 1 })
+      .exec()
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            message: "Show not found",
+          });
+        }
+
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+          message: "Could not retrieve a show",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve a show",
+    });
+  }
+};
+
 export const getEpisodes = async (req, res) => {
   try {
     const episodes = await EpisodeModel.find({ show: req.params.id }).exec();
@@ -170,6 +229,67 @@ export const getEpisodes = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Could not retrieve episodes",
+    });
+  }
+};
+
+export const getEpisodeByNumber = async (req, res) => {
+  try {
+    const showId = req.params.id;
+    const episodeNum = req.params.episodeNum.split("x");
+
+    switch (episodeNum[1]) {
+      case "01":
+        episodeNum[1] = 1;
+        break;
+      case "02":
+        episodeNum[1] = 2;
+        break;
+      case "03":
+        episodeNum[1] = 3;
+        break;
+      case "04":
+        episodeNum[1] = 4;
+        break;
+      case "05":
+        episodeNum[1] = 5;
+        break;
+      case "06":
+        episodeNum[1] = 6;
+        break;
+      case "07":
+        episodeNum[1] = 7;
+        break;
+      case "08":
+        episodeNum[1] = 8;
+        break;
+      case "09":
+        episodeNum[1] = 9;
+        break;
+    }
+
+    EpisodeModel.findOne({ show: showId, season: episodeNum[0], number: episodeNum[1] })
+      .populate({ path: "show", select: "thetvdb title" })
+      .exec()
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            message: "Episode not found",
+          });
+        }
+
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+          message: "Could not retrieve an episode",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve an episode",
     });
   }
 };

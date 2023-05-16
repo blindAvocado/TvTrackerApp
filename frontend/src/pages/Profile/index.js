@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FriendCard, ProgressItem, ShowItem, ShowsTabItem } from "../../components";
 import { apiUser } from "../../services/user";
 
@@ -11,7 +11,33 @@ export const Profile = () => {
   const { username } = useParams();
   const user = useLoaderData();
 
-  const {watchedShows, setWatchedShows} = useState({});
+  // const {watchedShows, setWatchedShows} = useState({});
+  const [stats, setStats] = useState({
+    watchedEpisodes: 0,
+    totalEpisodes: 0,
+    watchedHours: 0,
+    totalHours: 0,
+    watchedDays: 0,
+    totalDays: 0,
+  });
+
+  // const stats = apiUser.getWastedTime(user._id);
+
+  useEffect(() => {
+    const getStats = async () => {
+      await apiUser
+        .getWastedTime(user._id)
+        .then((data) => {
+          setStats({ ...data });
+        })
+        .catch((err) => console.log(err));
+    };
+
+    if (user) {
+      getStats();
+      console.log("USER HERE");
+    }
+  }, [user]);
 
   return (
     <div className={styles.profile}>
@@ -24,9 +50,21 @@ export const Profile = () => {
                 <img src={user.avatarUrl ? user.avatarUrl : defaultAvatar} alt="user avatar" />
               </div>
               <div className={styles.profile__stats}>
-                <ProgressItem num={6534} title={"episodes"} value={17} />
-                <ProgressItem num={3778} title={"hours"} value={15} />
-                <ProgressItem num={157} title={"days"} value={15} />
+                <ProgressItem
+                  num={stats.watchedEpisodes}
+                  title={"эпизодов"}
+                  value={(stats.watchedEpisodes / stats.totalEpisodes) * 100}
+                />
+                <ProgressItem
+                  num={stats.watchedHours}
+                  title={"часов"}
+                  value={(stats.watchedHours / stats.totalHours) * 100}
+                />
+                <ProgressItem
+                  num={stats.watchedHours}
+                  title={"дней"}
+                  value={(stats.watchedHours / stats.totalHours) * 100}
+                />
               </div>
             </div>
           </div>
@@ -106,13 +144,7 @@ export const Profile = () => {
 export const profileLoader = async ({ params }) => {
   const { username } = params;
 
-  // console.log(typeof(username));
-  // console.log(resp);
   const id = await apiUser.getIdByUsername(username);
-
-  console.log(username);
-  console.log(id);
-  console.log(!id);
 
   if (id) {
     const resp = await apiUser.getUserById(id);

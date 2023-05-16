@@ -1,0 +1,10 @@
+.show_technicals {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  max-width: 70%;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
