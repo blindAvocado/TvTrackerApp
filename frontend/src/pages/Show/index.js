@@ -1,13 +1,30 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { apiShow } from "../../services/show";
 
 import { ShowTechincals, EpisodeItem } from "../../components";
 
 import styles from "./Show.module.scss";
+import { Rating } from "react-simple-star-rating";
+import { apiUser } from "../../services/user";
 
-export const Show = () => {
+export const Show = ({ user }) => {
+  const { thetvdb } = useParams();
+  const [rating, setRating] = useState(0);
+  const [isFavorite, setFavorite] = useState(false);
+
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  const getWatchedEpisodes = async () => {
+    const showId = await apiShow.getObjIdByThetvdb(thetvdb);
+    if (!showId) {
+      const resp = await apiUser.getWatchedEpisodes(user._id, showId);
+    }
+  };
+
   const show = useLoaderData();
 
   show["yearStared"] = new Date(show.dateStarted).getFullYear();
@@ -16,10 +33,10 @@ export const Show = () => {
   console.log(show);
 
   const techincals = {
-    genres: show.genres.join(", "),
-    network: show.network,
-    averageRuntime: show.averageRuntime,
-    country: show.country,
+    жанры: show.genres.join(", "),
+    канал: show.network,
+    продолжительность: `${show.averageRuntime} мин.`,
+    страна: show.country,
   };
 
   return (
@@ -32,18 +49,31 @@ export const Show = () => {
             </div>
             <img src={show.image.original} alt="tv show poster" />
           </div>
+          <Rating
+            onClick={handleRating}
+            fillColor="#ff0f0f"
+            allowFraction={true}
+            size={35}
+            style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+          />
           <div className={styles.statusBox}>
             {/* <span className={styles.status__selector}></span> */}
             <div className={styles.statusList}>
               <label className={styles.statusOption}>
                 <input type="radio" name="show-status" id="watching" />
-                <label className={styles.optionLabel} for="watching">
+                <label className={styles.optionLabel} htmlFor="watching">
                   Смотрю
                 </label>
               </label>
               <label className={styles.statusOption}>
+                <input type="radio" name="show-status" id="going to" />
+                <label className={styles.optionLabel} htmlFor="going to">
+                  Буду смотреть
+                </label>
+              </label>
+              <label className={styles.statusOption}>
                 <input type="radio" name="show-status" id="stopped" />
-                <label className={styles.optionLabel} for="stopped">
+                <label className={styles.optionLabel} htmlFor="stopped">
                   Перестал смотреть
                 </label>
               </label>

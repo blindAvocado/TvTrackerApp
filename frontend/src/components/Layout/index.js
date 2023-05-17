@@ -5,7 +5,7 @@ import { Header, Footer } from "../../components";
 
 export const Layout = ({ children, user }) => {
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <div className="App">

@@ -15,4 +15,5 @@
   flex: 1;
   background: linear-gradient(180deg, var(--content-background) -50%, var(--dark-background) 70%);
   padding: 20px 0;
+  margin-top: 50px;
 }

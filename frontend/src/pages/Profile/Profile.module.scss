@@ -72,6 +72,14 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.profile__showsContent {
+  display: none;
+}
+
+.profile__showsContent.active {
+  display: block;
+}
+
 .right {
   flex: 1 0;
 }

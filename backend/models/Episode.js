@@ -10,8 +10,8 @@ const EpisodeSchema = new mongoose.Schema(
     airdate: { type: Date, required: true },
     summary: { type: String },
     image: {
-      medium: { type: String, required: true },
-      original: { type: String, required: true },
+      medium: { type: String },
+      original: { type: String },
     },
     type: { type: String, enum: ["regular", "special"], required: true, default: "regular" },
     show: { type: mongoose.Schema.Types.ObjectId, ref: "Show", required: true },

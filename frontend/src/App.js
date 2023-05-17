@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { apiAuth } from "./services/auth";
@@ -38,8 +38,8 @@ function App() {
         <Route path="login" element={<Login user={user} setUser={setUser} />} />
         <Route path="register" element={<Registration user={user} setUser={setUser} />} />
         <Route path="logout" element={<Logout />} />
-        <Route path="shows" element={<Shows />} />
-        <Route path="user/:username" element={<Profile />} loader={profileLoader} />
+        <Route path="shows" element={<Shows user={user} />} />
+        <Route path="user/:username" element={<Profile />} />
         <Route path="show/:thetvdb/:episodeNum" element={<Episode />} loader={episodeLoader} />
         <Route path="show/:thetvdb" element={<Show />} loader={showLoader} />
         <Route path="*" element={<h1>404</h1>} />

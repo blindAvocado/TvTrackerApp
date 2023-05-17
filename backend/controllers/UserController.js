@@ -3,20 +3,106 @@ import UserModel from "../models/User.js";
 import EpisodeModel from "../models/Episode.js";
 import CommentModel from "../models/Comment.js";
 
-export const follow = async (req, res) => {};
+export const followUser = async (req, res) => {
+  try {
+    const userFollow = await UserModel.findOne({ username: req.body.username }).exec();
+    const userFollowId = userFollow._id.toString();
+
+    if (!userFollow) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (req.userId === userFollowId) {
+      return res.status(500).json({ message: "You cannot follow yourself" });
+    }
+
+    await UserModel.findOneAndUpdate(
+      { _id: req.userId, following: { $ne: userFollow._id } },
+      {
+        $push: {
+          following: userFollowId,
+        },
+      },
+      { upsert: true }
+    )
+      .then(() => {
+        res.json({
+          status: "success",
+          message: "User is now followed",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          status: "error",
+          message: "Could not follow a user",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "Could not follow a user",
+    });
+  }
+};
+
+export const unfollowUser = async (req, res) => {
+  try {
+    const userFollow = await UserModel.findOne({ username: req.body.username }).exec();
+    const userFollowId = userFollow._id.toString();
+
+    if (!userFollow) {
+      return res.status(404).json({ status: "error", message: "User not found" });
+    }
+
+    if (req.userId === userFollowId) {
+      return res.status(500).json({ status: "error", message: "You cannot unfollow yourself" });
+    }
+
+    await UserModel.findOneAndUpdate(
+      { _id: req.userId, following: userFollow._id },
+      {
+        $pull: {
+          following: userFollowId,
+        },
+      }
+    )
+      .then(() => {
+        res.json({
+          status: "success",
+          message: "User is now unfollowed",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          status: "error",
+          message: "Could not unfollow a user1",
+        });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "Could not unfollow a user",
+    });
+  }
+};
 
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find();
 
     if (users.length == 0) {
-      return res.status(404).json({ message: "No users found" });
+      return res.status(404).json({ status: "error", message: "No users found" });
     }
 
     res.json(users);
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not get all users",
     });
   }
@@ -28,7 +114,8 @@ export const getUser = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        messages: "User not found",
+        status: "error",
+        message: "User not found",
       });
     }
 
@@ -37,6 +124,7 @@ export const getUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not get user by ID",
     });
   }
@@ -48,6 +136,7 @@ export const getUserIdByUsername = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
+        status: "error",
         messages: "User not found",
       });
     }
@@ -58,12 +147,32 @@ export const getUserIdByUsername = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not get user ID by username",
     });
   }
 };
 
-export const getFollowers = async (req, res) => {};
+export const getFollowers = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id, { following: 1 }).populate("following").exec();
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        messages: "User not found",
+      });
+    }
+
+    res.json(user._doc.following);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "Could not get user followers",
+    });
+  }
+};
 
 export const getFollowersFeed = async (req, res) => {};
 
@@ -75,15 +184,15 @@ export const getUserShows = async (req, res) => {};
 
 export const getUserEpisodes = async (req, res) => {};
 
-export const getUserShowEpisodes = async (req, res) => {};
-
-export const getShowStatuses = async (req, res) => {
+export const getUserShowEpisodes = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.id, {
-      "watchedShows._id": 0,
-      "watchedShows.rating": 0,
-      "watchedShows.isFavorite": 0,
-    }).exec();
+    const user = await UserModel.findById(req.params.id).populate({
+      path: "watchedEpisodes",
+      populate: {
+        path: "episode",
+        match: { show: req.params.showId }, // Filter episodes by the showId
+      },
+    });
 
     if (!user) {
       return res.status(404).json({
@@ -91,7 +200,71 @@ export const getShowStatuses = async (req, res) => {
       });
     }
 
-    res.json(user.watchedShows);
+    const watchedEpisodes = user.watchedEpisodes.filter((watchedEpisode) => watchedEpisode.episode !== null);
+
+    res.json(watchedEpisodes);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not get show statuses",
+    });
+  }
+};
+
+export const getShowStatuses = async (req, res) => {
+  try {
+    // const user = await UserModel.findById(req.params.id, {
+    //   "watchedShows._id": 0,
+    //   "watchedShows.rating": 0,
+    //   "watchedShows.isFavorite": 0,
+    // }).exec();
+
+    const user = await UserModel.findById(req.params.id)
+      .populate([
+        { path: "watchedShows.show", select: "" },
+        { path: "watchedEpisodes.episode", select: "" },
+      ])
+      .exec();
+
+    if (!user) {
+      return res.status(404).json({
+        messages: "User not found",
+      });
+    }
+
+    const mutatedUser = JSON.parse(JSON.stringify(user));
+
+    const result = {
+      Watching: [],
+      "Going to": [],
+      Stopped: [],
+      "Watched all": [],
+    };
+
+    mutatedUser.watchedShows.forEach((show) => {
+      switch (show.watchStatus) {
+        case "Watching":
+          result["Watching"].push(show);
+          break;
+        case "Going to":
+          result["Going to"].push(show);
+          break;
+        case "Stopped":
+          result["Stopped"].push(show);
+          break;
+        case "Watched all":
+          result["Watched all"].push(show);
+          break;
+      }
+    });
+
+    // user.watchedEpisodes.forEach(episode => {
+    //   user.watchedShows.forEach(show => {
+    //     if (episode.show === show._id) show.watchedEpisodes += 1;
+    //   });
+    // });
+
+    res.json(result);
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -190,7 +363,10 @@ export const rateShow = async (req, res) => {
           });
         }
 
-        res.json({ message: `Changed show rating to ${req.body.rating}` });
+        res.json({
+          status: "success",
+          message: `Changed show rating to ${req.body.rating}`,
+        });
       })
       .catch((err) => {
         return res.status(404).json({
@@ -239,7 +415,10 @@ export const rateEpisode = async (req, res) => {
         .catch((err) => console.log(err));
     });
 
-    res.json({ message: `Changed episode rating to ${req.body.rating}` });
+    res.json({
+      status: "success",
+      message: `Changed episode rating to ${req.body.rating}`,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -296,6 +475,7 @@ export const checkEpisode = async (req, res) => {
         }
 
         res.json({
+          status: "success",
           message: "Checked episode as watched",
         });
       })
@@ -326,7 +506,7 @@ export const uncheckEpisode = async (req, res) => {
           });
         }
 
-        res.json({ message: "Episode successfully removed from watched" });
+        res.json({ status: "success", message: "Episode successfully removed from watched" });
       })
       .catch((err) => {
         console.log(err);
@@ -354,7 +534,10 @@ export const getWastedTime = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id)
 
-      .populate([{path: "watchedShows.show", select: "episodes averageRuntime"}, {path: "watchedEpisodes.episode", select: "runtime"}])
+      .populate([
+        { path: "watchedShows.show", select: "episodes averageRuntime" },
+        { path: "watchedEpisodes.episode", select: "runtime" },
+      ])
       .exec();
 
     if (!user) {
@@ -369,7 +552,7 @@ export const getWastedTime = async (req, res) => {
     let totalEpisodes = 0;
     let totalMinutes = 0;
 
-    user.watchedShows?.forEach(item => {
+    user.watchedShows?.forEach((item) => {
       totalEpisodes += item.show.episodes?.length;
       totalMinutes += item.show.episodes?.length * item.show.averageRuntime;
     });
@@ -380,10 +563,10 @@ export const getWastedTime = async (req, res) => {
     let wastedEpisodes = watchedEpisodes.length;
     let wastedMinutes = 0;
 
-    user.watchedEpisodes?.forEach(item => {
-      console.log(item);
+    user.watchedEpisodes?.forEach((item) => {
+      // console.log(item);
       wastedMinutes += item.episode?.runtime;
-    })
+    });
 
     let wastedHours = Math.floor(wastedMinutes / 60);
     let wastedDays = Math.round(wastedHours / 24);

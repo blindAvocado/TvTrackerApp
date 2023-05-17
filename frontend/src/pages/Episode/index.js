@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
+import { ReactSVG } from "react-svg";
 import { EpisodeSidelistItem } from "../../components";
 import { apiShow } from "../../services/show";
 
 import styles from "./Episode.module.scss";
 
+import check from "../../img/check.svg";
+import { apiUser } from "../../services/user";
+
 export const Episode = () => {
   const episode = useLoaderData();
+
+  const [rating, setRating] = useState(0);
+  const [isFavorite, setFavorite] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  const toggleCheck = async () => {
+    if (isChecked) {
+      // const resp = await apiUser.uncheckEpisode(episode._id);
+      setIsChecked(!isChecked);
+      // if (resp?.success) {
+        // }
+      } else {
+        // await apiUser.checkEpisode(episode._id);
+        setIsChecked(!isChecked);
+      }
+  };
 
   console.log(episode);
 
@@ -26,13 +51,22 @@ export const Episode = () => {
             </div>
             <div className={styles.episode__actions}>
               <div className={styles.episode__checkbox}>
-                <button className={styles.episodeCheck}></button>
+                <button className={`${styles.episodeCheck} ${isChecked ? styles.active : ""}`} onClick={toggleCheck}>
+                  {isChecked ? <ReactSVG src={check} alt="check mark" /> : null}
+                </button>
               </div>
               <div className={styles.episode__fav}>
                 <button>
                   <img src="img/heart-svgrepo-com.svg" alt="favorite" />
                 </button>
               </div>
+              <Rating
+                onClick={handleRating}
+                fillColor="#ff0f0f"
+                allowFraction={true}
+                size={30}
+                style={{ display: "flex", alignItems: "center" }}
+              />
             </div>
             <ul className={styles.episode__info}>
               <li className={styles.episode__infoItem}>
@@ -48,6 +82,10 @@ export const Episode = () => {
                 <div className={styles.episode__infoValue}>19.05.2022</div>
               </li>
             </ul>
+            <div className={styles.episode__desc}>
+              <span className={styles.episode__descHeader}>Описание</span>
+              <div className={styles.episode__descText}>{episode.summary}</div>
+            </div>
           </div>
         </div>
         <div className={styles.right}>

@@ -28,7 +28,12 @@ export const Header = ({ user }) => {
           <div className={`${styles.header__right} ${searchOpen ? styles.searchActive : ""}`}>
             <div className={`${styles.header__search} ${searchOpen ? styles.searchActive : ""}`}>
               <form className={styles.header__searchForm}>
-                <input className={styles.header__searchInput} placeholder="Найти сериалы" type="text" />
+                <input
+                  className={styles.header__searchInput}
+                  placeholder="Найти сериалы"
+                  type="text"
+                  onClick={(e) => e.stopPropagation()}
+                />
               </form>
               <button
                 className={styles.header__searchBtn}

@@ -4,6 +4,8 @@
   --primary-color: #efefef;
   --accent-color: #ff0f0f;
   --accent-light-color: #ff3939;
+  --accent-dark-color: #cf0f0f;
+  --checked-color: #5a9700;
   --border-color: #444446;
   --link-color: #fff;
   --info-color: #b1b1b1;
@@ -27,6 +29,7 @@
 html,
 body {
   height: 100%;
+  color: var(--white-color);
 }
 
 img {

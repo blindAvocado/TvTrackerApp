@@ -8,6 +8,11 @@
   flex: 1 0 35px;
   width: 35px;
   height: 35px;
+  border: 2px solid var(--border-color);
+}
+
+.profile__friendAvatar a {
+  display: block;
 }
 
 .profile__friendAvatar img {

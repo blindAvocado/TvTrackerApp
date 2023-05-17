@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import styles from "./ProgressItem.module.scss";
 
 export const ProgressItem = ({ num, title, value }) => {
+  useEffect(() => {}, [num, title, value]);
+
   return (
     <div className={styles.profile__statsProgress}>
       <div className={styles.profile__progressLabel}>

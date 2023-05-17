@@ -32,7 +32,7 @@ router.get("/:id/comments");
 router.delete("/:id/comments/:commentId", checkAdmin);
 
 // Following
-router.get("/:id/following");
+router.get("/:id/following", UserController.getFollowers);
 router.delete("/:id/following/:followingId", checkAuth);
 
 // Lists
@@ -59,7 +59,8 @@ router.delete("/:id/favorite/episodes/:episodeId", checkAuth);
 router.get("/:id/wasted", UserController.getWastedTime);
 
 //Manage
-router.get("/:id/follow", checkAuth, UserController.follow);
+router.post("/follow", checkAuth, UserController.followUser);
+router.post("/unfollow", checkAuth, UserController.unfollowUser);
 router.get("/:id/shows/status", UserController.getShowStatuses);
 router.patch("/shows/:showId/status", checkAuth, UserController.changeShowStatus);
 router.delete("/shows/:showId/remove", checkAuth, UserController.removeShowFromWatched);

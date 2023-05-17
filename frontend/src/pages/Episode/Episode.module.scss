@@ -52,6 +52,8 @@
 
 .episodeCheck {
   display: flex;
+  align-content: center;
+  justify-content: center;
   border: 1px solid var(--info-color);
   background: none;
   width: 25px;
@@ -60,11 +62,26 @@
   cursor: pointer;
 }
 
+.episodeCheck.active {
+  background: var(--checked-color);
+}
+
+.episodeCheck svg {
+  width: 22px;
+  height: 22px;
+}
+
+.episodeCheck path {
+  stroke: var(--white-color);
+}
+
 .episode__fav {
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 0 0 5%;
+  order: 3;
+  margin-left: auto;
 }
 
 .episode__fav button {
