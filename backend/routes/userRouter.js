@@ -22,6 +22,7 @@ router.get("/:id/followingFeed",);
 // Watched
 router.get("/:id/shows", UserController.getUserShows);
 router.get("/:id/shows/count");
+router.get("/:id/shows/:showId/data", UserController.getWatchedShowData);
 router.get("/:id/shows/:showId/episodes", UserController.getUserShowEpisodes);
 router.get("/:id/shows/:showId/episodes/count");
 router.get("/:id/episodes", UserController.getUserEpisodes);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { apiShow } from "../../services/show";
@@ -11,24 +11,78 @@ import { apiUser } from "../../services/user";
 
 export const Show = ({ user }) => {
   const { thetvdb } = useParams();
-  const [rating, setRating] = useState(0);
-  const [isFavorite, setFavorite] = useState(false);
+  const rating = useRef(0);
+  const showId = useRef(null);
 
-  const handleRating = (rate) => {
-    setRating(rate);
+  const [showUserData, setShowUserData] = useState(null);
+  const [isFavorite, setFavorite] = useState(false);
+  const [watchStatus, setWatchStatus] = useState("Not watching");
+
+  const getShowId = async () => {
+    if (!showId.current) {
+      showId.current = await apiShow.getObjIdByThetvdb(thetvdb);
+      return showId.current._id;
+    } else {
+      return showId.current._id;
+    }
+  };
+
+  const handleRating = async (rate) => {
+    await getShowId();
+    await apiUser.rateShow(showId.current._id, rate).then(() => (rating.current = rate * 2));
+    console.log(rate * 2);
   };
 
   const getWatchedEpisodes = async () => {
-    const showId = await apiShow.getObjIdByThetvdb(thetvdb);
-    if (!showId) {
-      const resp = await apiUser.getWatchedEpisodes(user._id, showId);
+    await getShowId();
+    const resp = await apiUser.getWatchedEpisodes(user._id, showId.current._id);
+    if (resp && resp.status === "success") {
+      setShowUserData({ ...showUserData, resp });
+    }
+  };
+
+  const getWatchedShowData = async () => {
+    await getShowId();
+    const resp = await apiUser.getWatchedShow(user._id, showId.current._id);
+    console.log(user._id, showId.current._id);
+    console.log(resp);
+    if (resp && resp.status === "success") {
+      const temp = resp.data;
+      setShowUserData({ ...showUserData, temp });
+      setWatchStatus(resp.data.watchStatus);
+    }
+  };
+
+  const handleStatusChange = async (status) => {
+    // console.log(status);
+    await getShowId();
+    if (status === "Not watching") {
+      const resp = await apiUser.removeShowFromWatched(showId.current._id);
+      if (resp && resp.status === "success") {
+        setWatchStatus("Not watching");
+      }
+    }
+    const data = { status: status };
+    const resp = await apiUser.setShowStatus(showId.current._id, data);
+    if (resp && resp.status === "success") {
+      setWatchStatus(status);
     }
   };
 
   const show = useLoaderData();
 
   show["yearStared"] = new Date(show.dateStarted).getFullYear();
-  show["yearEnded"] = new Date(show.dateEnded).getFullYear();
+
+  if (show.dateEnded) {
+    show["yearEnded"] = new Date(show.dateEnded).getFullYear();
+  } else {
+    show["yearEnded"] = null;
+  }
+
+  useEffect(() => {
+    getWatchedEpisodes();
+    getWatchedShowData();
+  }, []);
 
   console.log(show);
 
@@ -59,29 +113,40 @@ export const Show = ({ user }) => {
           <div className={styles.statusBox}>
             {/* <span className={styles.status__selector}></span> */}
             <div className={styles.statusList}>
-              <label className={styles.statusOption}>
-                <input type="radio" name="show-status" id="watching" />
-                <label className={styles.optionLabel} htmlFor="watching">
+              <label
+                className={styles.statusOption}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange("Watching");
+                }}
+              >
+                {/* <input type="radio" name="show-status" id="watching" defaultChecked={watchStatus === "Watching"} /> */}
+                <span className={`${styles.optionLabel} ${watchStatus === "Watching" ? styles.active : ""}`}>
                   Смотрю
-                </label>
+                </span>
               </label>
-              <label className={styles.statusOption}>
-                <input type="radio" name="show-status" id="going to" />
-                <label className={styles.optionLabel} htmlFor="going to">
+              <label className={styles.statusOption} onClick={() => handleStatusChange("Going to")}>
+                {/* <input type="radio" name="show-status" id="going to" defaultChecked={watchStatus === "Going to"} /> */}
+                <span className={`${styles.optionLabel} ${watchStatus === "Going to" ? styles.active : ""}`}>
                   Буду смотреть
-                </label>
+                </span>
               </label>
-              <label className={styles.statusOption}>
-                <input type="radio" name="show-status" id="stopped" />
-                <label className={styles.optionLabel} htmlFor="stopped">
+              <label className={styles.statusOption} onClick={() => handleStatusChange("Stopped")}>
+                {/* <input type="radio" name="show-status" id="stopped" defaultChecked={watchStatus === "Stopped"} /> */}
+                <span className={`${styles.optionLabel} ${watchStatus === "Stopped" ? styles.active : ""}`}>
                   Перестал смотреть
-                </label>
+                </span>
               </label>
-              <label className={styles.statusOption}>
-                <input type="radio" name="show-status" id="not watching" />
-                <label className={styles.optionLabel} for="not watching">
+              <label className={styles.statusOption} onClick={() => handleStatusChange("Not watching")}>
+                {/* <input
+                  type="radio"
+                  name="show-status"
+                  id="not watching"
+                  defaultChecked={watchStatus === "Not watching"}
+                /> */}
+                <span className={`${styles.optionLabel} ${watchStatus === "Not watching" ? styles.active : ""}`}>
                   Не смотрю
-                </label>
+                </span>
               </label>
             </div>
           </div>

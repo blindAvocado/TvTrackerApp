@@ -10,13 +10,6 @@ import search from "../../img/search.svg";
 export const Header = ({ user }) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
-  const toggleSearch = (e, btn) => {
-    console.log(searchOpen);
-    console.log(btn);
-    setSearchOpen(!searchOpen);
-    console.log(e.target);
-  };
-
   return (
     <header className={styles.header} onClick={() => setSearchOpen(false)}>
       <div className="container">

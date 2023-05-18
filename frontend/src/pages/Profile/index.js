@@ -39,13 +39,17 @@ export const Profile = () => {
   const loadUser = async () => {
     const id = await apiUser.getIdByUsername(username);
 
+    console.log(id);
+
     if (id) {
       const followingUsers = await apiUser.getFollowers(id);
       const resp = await apiUser.getUserById(id);
+
       if (resp) {
         resp.following = followingUsers;
         setUser(resp);
         userLoaded.current = true;
+        console.log(resp);
       } else {
         console.log("User was not loaded to Profile page");
       }
@@ -71,6 +75,7 @@ export const Profile = () => {
     await apiUser
       .getShowStatuses(user._id)
       .then((data) => {
+        console.log(data);
         setWatchedShows(data);
       })
       .catch((err) => console.log(err));
@@ -88,6 +93,8 @@ export const Profile = () => {
       updateUser();
     }
   }, [user]);
+
+  console.log(watchedShows);
 
   if (user) {
     return (

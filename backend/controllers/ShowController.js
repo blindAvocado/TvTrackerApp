@@ -443,14 +443,16 @@ export const getAllShows = async (req, res) => {
 
     if (shows.length === 0) {
       return res.status(404).json({
+        status: "error",
         message: "Shows not found",
       });
     }
 
-    res.json(shows);
+    res.json({ status: "success", data: shows });
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not retrieve shows",
     });
   }

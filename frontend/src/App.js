@@ -41,7 +41,7 @@ function App() {
         <Route path="shows" element={<Shows user={user} />} />
         <Route path="user/:username" element={<Profile />} />
         <Route path="show/:thetvdb/:episodeNum" element={<Episode />} loader={episodeLoader} />
-        <Route path="show/:thetvdb" element={<Show />} loader={showLoader} />
+        <Route path="show/:thetvdb" element={<Show user={user} />} loader={showLoader} />
         <Route path="*" element={<h1>404</h1>} />
       </Route>
     )

@@ -27,21 +27,18 @@ export const followUser = async (req, res) => {
     )
       .then(() => {
         res.json({
-          status: "success",
           message: "User is now followed",
         });
       })
       .catch((err) => {
         console.log(err);
         res.status(500).json({
-          status: "error",
           message: "Could not follow a user",
         });
       });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: "error",
       message: "Could not follow a user",
     });
   }
@@ -53,11 +50,11 @@ export const unfollowUser = async (req, res) => {
     const userFollowId = userFollow._id.toString();
 
     if (!userFollow) {
-      return res.status(404).json({ status: "error", message: "User not found" });
+      return res.status(404).json({  message: "User not found" });
     }
 
     if (req.userId === userFollowId) {
-      return res.status(500).json({ status: "error", message: "You cannot unfollow yourself" });
+      return res.status(500).json({  message: "You cannot unfollow yourself" });
     }
 
     await UserModel.findOneAndUpdate(
@@ -95,14 +92,14 @@ export const getAllUsers = async (req, res) => {
     const users = await UserModel.find();
 
     if (users.length == 0) {
-      return res.status(404).json({ status: "error", message: "No users found" });
+      return res.status(404).json({ message: "No users found" });
     }
 
     res.json(users);
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: "error",
+    
       message: "Could not get all users",
     });
   }
@@ -114,7 +111,6 @@ export const getUser = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        status: "error",
         message: "User not found",
       });
     }
@@ -124,7 +120,6 @@ export const getUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: "error",
       message: "Could not get user by ID",
     });
   }
@@ -136,7 +131,6 @@ export const getUserIdByUsername = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        status: "error",
         messages: "User not found",
       });
     }
@@ -147,7 +141,6 @@ export const getUserIdByUsername = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: "error",
       message: "Could not get user ID by username",
     });
   }
@@ -159,7 +152,6 @@ export const getFollowers = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        status: "error",
         messages: "User not found",
       });
     }
@@ -168,7 +160,6 @@ export const getFollowers = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      status: "error",
       message: "Could not get user followers",
     });
   }
@@ -232,12 +223,14 @@ export const getShowStatuses = async (req, res) => {
       });
     }
 
+    console.log(user);
+
     const mutatedUser = JSON.parse(JSON.stringify(user));
 
     const result = {
-      Watching: [],
+      "Watching": [],
       "Going to": [],
-      Stopped: [],
+      "Stopped": [],
       "Watched all": [],
     };
 
@@ -299,6 +292,7 @@ export const changeShowStatus = async (req, res) => {
         .then((doc) => {
           if (!doc) {
             return res.status(404).json({
+              status: "error",
               message: "User not found",
             });
           }
@@ -306,10 +300,11 @@ export const changeShowStatus = async (req, res) => {
         .catch((err) => console.log(err));
     });
 
-    return res.json({ message: `Show status successfully changed to ${req.body.status}` });
+    return res.json({ status: "success", message: `Show status successfully changed to ${req.body.status}` });
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not change show status",
     });
   }
@@ -329,17 +324,20 @@ export const removeShowFromWatched = async (req, res) => {
     ).then((doc) => {
       if (!doc) {
         return res.status(404).json({
+          status: "error",
           message: "Show not found",
         });
       }
 
       res.json({
+        status: "success",
         message: "Show successfully removed from watched",
       });
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      status: "error",
       message: "Could not remove show from watched",
     });
   }
@@ -358,6 +356,8 @@ export const rateShow = async (req, res) => {
     )
       .then((doc) => {
         if (!doc) {
+          // changeShowStatus(); //change show status to watching
+
           return res.status(404).json({
             message: "Show not found",
           });
@@ -377,6 +377,34 @@ export const rateShow = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Could not rate show",
+    });
+  }
+};
+
+export const getWatchedShowData = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const showId = req.params.showId;
+
+    console.log(req.params.id, req.params.showId);
+    const user = await UserModel.findOne({ _id: userId, "watchedShows.show": showId });
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        messages: "Show not found",
+      });
+    }
+
+    console.log(user);
+    const result = user.watchedShows.find((item) => item.show.toString() === showId);
+
+    res.json({ status: "success", data: result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "Could not get show statuses",
     });
   }
 };

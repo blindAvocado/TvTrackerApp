@@ -5,9 +5,7 @@ import { apiUser } from "../../services/user";
 
 import styles from "./ShowItem.module.scss";
 
-export const ShowItem = ({ show, userId }) => {
-  console.log(show);
-  
+export const ShowItem = ({ show, userId }) => {  
   // const watchedEpisodes = useRef(0);
   const [watchedEpisodes, setWatchedEpisodes] = useState(0);
   const loadedWatchedEpisodes = useRef(false);

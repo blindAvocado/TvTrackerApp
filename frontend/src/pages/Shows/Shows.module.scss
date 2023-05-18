@@ -1,3 +1,23 @@
-.header__btn {
+.shows__wrapper {
+  padding: 30px 0;
+}
 
+.shows__list {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  // overflow: hidden;
+  list-style: none;
+}
+
+.shows__list::after {
+  content: "";
+  display: inline-block;
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.shows__item {
+  margin-left: 20px;
+  margin-bottom: 20px;
 }

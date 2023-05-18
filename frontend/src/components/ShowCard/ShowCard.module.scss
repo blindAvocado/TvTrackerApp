@@ -1,0 +1,109 @@
+.showcard {
+  width: 170px;
+  height: 240px;
+  position: relative;
+}
+
+.showcard__wrapper {
+  overflow: hidden;
+  border-radius: 5px;
+  height: 100%;
+}
+
+.showcard__poster {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.showcard__frame {
+  background-clip: padding-box;
+  background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 0, hsla(0, 0%, 100%, 0.5) 50%, hsla(0, 0%, 100%, 0));
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(221, 238, 255, 0.35);
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  text-indent: 110%;
+  top: 0;
+  white-space: nowrap;
+}
+
+.showcard__frame:hover {
+  text-decoration: none;
+}
+
+.showcard__overlay {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  border-width: 1px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: inlune;
+  overflow: hidden;
+  position: absolute;
+  transition: all 0.1s linear;
+  text-indent: 110%;
+  white-space: nowrap;
+}
+
+.showcard__frame:hover .showcard__overlay {
+  border-color: var(--primary-color);
+}
+
+.showcard__tooltip {
+  display: block;
+  position: absolute;
+  top: -32px;
+  left: 26%;
+  opacity: 0;
+  transition: all .2s ease-in-out;
+}
+
+.showcard:hover .showcard__tooltip {
+  // display: block;
+  opacity: 1;
+}
+
+.showcard__tooltipText {
+  background-color: var(--border-color);
+  border-radius: 4px;
+  color: var(--link-color);
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  max-width: 360px;
+  overflow: hidden;
+  padding: 5px 9px 5px;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.showcard__tooltipArrow {
+  // border-bottom: 5px solid var(--content-background);
+}
+
+.showcard__tooltipArrow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-top: 5px solid var(--border-color);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}

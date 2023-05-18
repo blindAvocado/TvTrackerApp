@@ -17,4 +17,9 @@ export const apiShow = {
       .get(`/shows/${id}/toObjectID`)
       .then((res) => res.data)
       .catch((err) => console.log(err)),
+  getAllShows: () =>
+    axios
+      .get("/shows")
+      .then((res) => res.data)
+      .catch((err) => console.log(err)),
 };

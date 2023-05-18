@@ -73,10 +73,29 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  position: relative;
 }
 
 .statusOption:last-child {
   border: none;
+}
+
+.optionLabel::before {
+  content: " ";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: #3d3939;
+  border-radius: 50%;
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  box-shadow: -11px -11px 19px -1px rgba(255, 255, 255, 0.2) inset;
+
+}
+
+.optionLabel.active::before {
+  background-color: var(--accent-color);
 }
 
 .statusOption input {
@@ -84,11 +103,6 @@
   left: 20px;
   top: 20px;
 }
-
-.statusOption label {
-  cursor: pointer;
-}
-
 
 .right {
   flex-grow: 1;
