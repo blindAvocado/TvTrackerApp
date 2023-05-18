@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 
 import styles from "./Header.module.scss";
@@ -9,6 +9,10 @@ import search from "../../img/search.svg";
 
 export const Header = ({ user }) => {
   const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+
+  }, [user]);
 
   return (
     <header className={styles.header} onClick={() => setSearchOpen(false)}>
@@ -46,6 +50,7 @@ export const Header = ({ user }) => {
                 <HeaderButton text={"Зарегистрироваться"} outline={false} route={"/register"} />
               </div>
             )}
+            {/* <HeaderButton text={"+ Добавить"} outline={false} route={"/addShow"} /> */}
           </div>
         </div>
       </div>

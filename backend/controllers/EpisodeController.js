@@ -59,7 +59,24 @@ export const remove = async (req, res) => {};
 
 export const update = async (req, res) => {};
 
-export const getEpisodeById = async (req, res) => {};
+export const getEpisodeById = async (req, res) => {
+  try {
+    const episode = await EpisodeModel.findById(req.params.episodeId).exec();
+
+    if (!episode) {
+      return res.status(404).json({
+        messages: "Episode not found",
+      });
+    }
+
+    res.json(episode);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Could not retrieve episode",
+    });
+  }
+};
 
 export const getEpisodeByTvmaze = async (req, res) => {};
 

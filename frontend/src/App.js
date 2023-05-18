@@ -5,9 +5,10 @@ import Cookies from "js-cookie";
 import { apiAuth } from "./services/auth";
 
 import { Layout, Logout } from "./components";
-import { Login, Registration, Profile, profileLoader, Show, Episode, Shows, showLoader, episodeLoader } from "./pages";
+import { Login, Registration, Profile, Show, Episode, Shows, showLoader, episodeLoader } from "./pages";
 
 import "./App.css";
+import { ModalAddShow } from "./components/ModalAddShow";
 
 function App() {
   const [user, setUser] = useState({ isLoggedIn: false });
@@ -35,12 +36,13 @@ function App() {
     createRoutesFromElements(
       <Route element={<Layout user={user} />}>
         <Route path="/" element={<Navigate to="shows" replace />} />
-        <Route path="login" element={<Login user={user} setUser={setUser} />} />
-        <Route path="register" element={<Registration user={user} setUser={setUser} />} />
-        <Route path="logout" element={<Logout />} />
+        <Route exact path="login" element={<Login user={user} setUser={setUser} />} />
+        <Route exact path="register" element={<Registration user={user} setUser={setUser} />} />
+        <Route exact path="logout" forceRefresh={true} element={<Logout />} />
+        <Route exact path="addShow" element={<ModalAddShow />} />
         <Route index path="shows" element={<Shows user={user} />} />
         <Route path="user/:username" element={<Profile />} />
-        <Route path="show/:thetvdb/:episodeNum" element={<Episode />} loader={episodeLoader} />
+        <Route path="show/:thetvdb/:episodeNum" element={<Episode user={user} />} loader={episodeLoader} />
         <Route path="show/:thetvdb" element={<Show user={user} />} loader={showLoader} />
         <Route path="*" element={<h1>404</h1>} />
       </Route>

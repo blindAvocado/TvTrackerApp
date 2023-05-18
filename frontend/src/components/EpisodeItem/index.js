@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { ReactSVG } from "react-svg";
-import { apiUser } from "../../services/user";
 
 import styles from "./EpisodeItem.module.scss";
 
@@ -22,23 +21,11 @@ export const EpisodeItem = ({ episode, rating, checked, onRatingChange, onEpisod
   const handleEpisodeCheck = async () => {
     console.log(localChecked);
     const tempChecked = !localChecked;
+    if (tempChecked === false) {
+      setLocalRating(0);
+    }
     setLocalChecked(tempChecked);
     onEpisodeCheck(episode._id, tempChecked);
-    // console.log("clicked");
-    // setIsChecked(!isChecked);
-    // if (isChecked) {
-    //   const resp = await apiUser.uncheckEpisode(episode._id);
-    //   console.log(resp);
-    //   if (resp?.status === "success") {
-    //     setIsChecked(!isChecked);
-    //   }
-    // } else {
-    //   const resp = await apiUser.checkEpisode(episode._id);
-    //   if (resp?.status === "success") {
-    //     setIsChecked(!isChecked);
-    //   }
-    // }
-    // onEpisodeCheck(episode._id);
   };
 
   useEffect(() => {

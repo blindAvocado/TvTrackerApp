@@ -19,14 +19,14 @@ export const createExternal = async (req, res) => {
           description: data.summary,
           image: data.image,
           genres: data.genres,
-          network: data.network.name,
+          network: data.network ? data.network.name : data.webChannel.name,
           dateStarted: data.premiered,
           dateEnded: data.ended,
           averageRuntime: data.averageRuntime,
           imdbId: data.externals.imdb,
           thetvdb: data.externals.thetvdb,
           status: data.status,
-          country: data.network.country.name,
+          country: data.network ? data.network.country.name : data.webChannel.country.name,
           episodes: [],
         });
 
@@ -41,6 +41,9 @@ export const createExternal = async (req, res) => {
       })
       .catch((err) => {
         console.log(err);
+        res.json({
+          message: "Show & episodes were not added",
+        });
       });
 
     res.json({

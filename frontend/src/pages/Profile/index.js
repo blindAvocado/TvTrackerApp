@@ -1,11 +1,11 @@
-import { useEffect, useState, useLayoutEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FriendCard, ProgressItem, ShowItem, ShowsTabItem } from "../../components";
 import { apiUser } from "../../services/user";
 
 import styles from "./Profile.module.scss";
 
 import defaultAvatar from "../../img/user_default.jpg";
-import { useParams, useLoaderData, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 
 export const Profile = () => {
   // const user = useLoaderData();
@@ -183,22 +183,22 @@ export const Profile = () => {
               <div className={styles.profile__actionsHeader}>Профиль</div>
               <ul className={styles.profile__actionList}>
                 <li className={styles.profile__actionItem}>
-                  <a href="#" className={styles.profile__actionItemLink}>
+                  <a href="/" className={styles.profile__actionItemLink}>
                     Полная статистика
                   </a>
                 </li>
                 <li className={styles.profile__actionItem}>
-                  <a href="#" className={styles.profile__actionItemLink}>
+                  <a href="/" className={styles.profile__actionItemLink}>
                     Мои списки
                   </a>
                 </li>
                 <li className={styles.profile__actionItem}>
-                  <a href="#" className={styles.profile__actionItemLink}>
+                  <a href="/" className={styles.profile__actionItemLink}>
                     Комментарии
                   </a>
                 </li>
                 <li className={styles.profile__actionItem}>
-                  <a href="#" className={styles.profile__actionItemLink}>
+                  <a href="/" className={styles.profile__actionItemLink}>
                     Настройки
                   </a>
                 </li>
@@ -212,7 +212,7 @@ export const Profile = () => {
             <div className={styles.profile__friends}>
               <div className={styles.profile__friendsHeader}>
                 <span className={styles.profile__friendsTitle}>Друзья</span>
-                <a href="#" className={styles.profile__friendsLink}>
+                <a href="/" className={styles.profile__friendsLink}>
                   Все друзья
                 </a>
               </div>

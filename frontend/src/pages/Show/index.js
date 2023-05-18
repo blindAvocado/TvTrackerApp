@@ -145,54 +145,59 @@ export const Show = ({ user }) => {
             </div> */}
             <img src={show.image.original} alt="tv show poster" />
           </div>
-          <Rating
-            onClick={handleRating}
-            fillColor="#ff0f0f"
-            allowFraction={true}
-            size={35}
-            style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
-            initialValue={rating.current}
-          />
-          <div className={styles.statusBox}>
-            {/* <span className={styles.status__selector}></span> */}
-            <div className={styles.statusList}>
-              <label
-                className={styles.statusOption}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange("Watching");
-                }}
-              >
-                {/* <input type="radio" name="show-status" id="watching" defaultChecked={watchStatus === "Watching"} /> */}
-                <span className={`${styles.optionLabel} ${watchStatus === "Watching" ? styles.active : ""}`}>
-                  Смотрю
-                </span>
-              </label>
-              <label className={styles.statusOption} onClick={() => handleStatusChange("Going to")}>
-                {/* <input type="radio" name="show-status" id="going to" defaultChecked={watchStatus === "Going to"} /> */}
-                <span className={`${styles.optionLabel} ${watchStatus === "Going to" ? styles.active : ""}`}>
-                  Буду смотреть
-                </span>
-              </label>
-              <label className={styles.statusOption} onClick={() => handleStatusChange("Stopped")}>
-                {/* <input type="radio" name="show-status" id="stopped" defaultChecked={watchStatus === "Stopped"} /> */}
-                <span className={`${styles.optionLabel} ${watchStatus === "Stopped" ? styles.active : ""}`}>
-                  Перестал смотреть
-                </span>
-              </label>
-              <label className={styles.statusOption} onClick={() => handleStatusChange("Not watching")}>
-                {/* <input
+          {user ? (
+            <>
+              {" "}
+              <Rating
+                onClick={handleRating}
+                fillColor="#ff0f0f"
+                allowFraction={true}
+                size={35}
+                style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+                initialValue={rating.current}
+              />
+              <div className={styles.statusBox}>
+                {/* <span className={styles.status__selector}></span> */}
+                <div className={styles.statusList}>
+                  <label
+                    className={styles.statusOption}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStatusChange("Watching");
+                    }}
+                  >
+                    {/* <input type="radio" name="show-status" id="watching" defaultChecked={watchStatus === "Watching"} /> */}
+                    <span className={`${styles.optionLabel} ${watchStatus === "Watching" ? styles.active : ""}`}>
+                      Смотрю
+                    </span>
+                  </label>
+                  <label className={styles.statusOption} onClick={() => handleStatusChange("Going to")}>
+                    {/* <input type="radio" name="show-status" id="going to" defaultChecked={watchStatus === "Going to"} /> */}
+                    <span className={`${styles.optionLabel} ${watchStatus === "Going to" ? styles.active : ""}`}>
+                      Буду смотреть
+                    </span>
+                  </label>
+                  <label className={styles.statusOption} onClick={() => handleStatusChange("Stopped")}>
+                    {/* <input type="radio" name="show-status" id="stopped" defaultChecked={watchStatus === "Stopped"} /> */}
+                    <span className={`${styles.optionLabel} ${watchStatus === "Stopped" ? styles.active : ""}`}>
+                      Перестал смотреть
+                    </span>
+                  </label>
+                  <label className={styles.statusOption} onClick={() => handleStatusChange("Not watching")}>
+                    {/* <input
                   type="radio"
                   name="show-status"
                   id="not watching"
                   defaultChecked={watchStatus === "Not watching"}
                 /> */}
-                <span className={`${styles.optionLabel} ${watchStatus === "Not watching" ? styles.active : ""}`}>
-                  Не смотрю
-                </span>
-              </label>
-            </div>
-          </div>
+                    <span className={`${styles.optionLabel} ${watchStatus === "Not watching" ? styles.active : ""}`}>
+                      Не смотрю
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
       <div className={styles.right}>

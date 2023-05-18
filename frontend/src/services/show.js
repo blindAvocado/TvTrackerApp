@@ -22,4 +22,9 @@ export const apiShow = {
       .get("/shows")
       .then((res) => res.data)
       .catch((err) => console.log(err)),
+  addExternal: (title) =>
+    axios
+      .get("/shows/tvmaze")
+      .then((res) => res.data)
+      .catch((err) => console.log(err)),
 };

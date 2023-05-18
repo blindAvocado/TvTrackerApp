@@ -11,6 +11,8 @@ router.get("/", EpisodeController.getAllEpisodes);
 // http://localhost:4444/api/episodes/count
 router.get("/count", EpisodeController.getAllEpisodesCount);
 
+router.get("/:episodeId", EpisodeController.getEpisodeById);
+
 // http://localhost:4444/api/episodes/:episodeId/comments
 router.get("/:episodeId/comments");
 router.post("/:episodeId/comments");

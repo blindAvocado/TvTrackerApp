@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { ReactSVG } from "react-svg";
 import { EpisodeSidelistItem } from "../../components";
@@ -10,28 +10,65 @@ import styles from "./Episode.module.scss";
 import check from "../../img/check.svg";
 import { apiUser } from "../../services/user";
 
-export const Episode = () => {
+export const Episode = ({ user }) => {
+  const { thetvdb, episodeNum } = useParams();
   const episode = useLoaderData();
 
-  const [rating, setRating] = useState(0);
+  const showId = useRef(null);
   const [isFavorite, setFavorite] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [rating, setRating] = useState(0);
 
-  const handleRating = (rate) => {
+  const handleRating = async (rate) => {
+    const obj = { rating: rate * 2 };
+    const resp = await apiUser.rateEpisode(episode._id, obj);
     setRating(rate);
   };
 
-  const toggleCheck = async () => {
-    if (isChecked) {
-      // const resp = await apiUser.uncheckEpisode(episode._id);
-      setIsChecked(!isChecked);
-      // if (resp?.success) {
-        // }
-      } else {
-        // await apiUser.checkEpisode(episode._id);
-        setIsChecked(!isChecked);
-      }
+  const handleCheck = async () => {
+    if (checked === true) {
+      const resp = await apiUser.uncheckEpisode(episode._id);
+      setChecked(false);
+      setRating(0);
+    } else if (checked === false) {
+      const resp = await apiUser.checkEpisode(episode._id);
+      setChecked(true);
+    }
   };
+
+  const getShowId = async () => {
+    if (!showId.current) {
+      showId.current = await apiShow.getObjIdByThetvdb(thetvdb);
+      return showId.current._id;
+    } else {
+      return showId.current._id;
+    }
+  };
+
+
+
+  useEffect(() => {
+    const fetchWatchedEpisodes = async () => {
+      try {
+        await getShowId();
+        const watchedEpisodes = await apiUser.getWatchedEpisodes(user._id, showId.current._id);
+        // const watchedEpisodes = response; // Assuming the response contains an array of watched episodes
+
+        // Find the watched episode that matches the current episode
+        const watchedEpisode = watchedEpisodes.find((item) => item.episode._id === episode._id);
+
+        if (watchedEpisode) {
+          console.log(watchedEpisode.episode.title, true, watchedEpisode.rating);
+          setChecked(true); // Update the checked state if the episode is marked as watched
+          setRating(watchedEpisode.rating / 2); // Update the rating state with the episode's rating
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchWatchedEpisodes();
+  });
 
   console.log(episode);
 
@@ -51,8 +88,8 @@ export const Episode = () => {
             </div>
             <div className={styles.episode__actions}>
               <div className={styles.episode__checkbox}>
-                <button className={`${styles.episodeCheck} ${isChecked ? styles.active : ""}`} onClick={toggleCheck}>
-                  {isChecked ? <ReactSVG src={check} alt="check mark" /> : null}
+                <button className={`${styles.episodeCheck} ${checked ? styles.active : ""}`} onClick={handleCheck}>
+                  {checked ? <ReactSVG src={check} alt="check mark" /> : null}
                 </button>
               </div>
               <div className={styles.episode__fav}>
@@ -66,6 +103,7 @@ export const Episode = () => {
                 allowFraction={true}
                 size={30}
                 style={{ display: "flex", alignItems: "center" }}
+                initialValue={rating}
               />
             </div>
             <ul className={styles.episode__info}>

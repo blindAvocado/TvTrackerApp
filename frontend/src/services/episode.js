@@ -1,7 +1,7 @@
 import axios from "../axios";
 
 export const apiEpisode = {
-  getByThetvdb: (id) =>
+  getById: (id) =>
     axios
       .get(`/shows/${id}`)
       .then((res) => res.data)
