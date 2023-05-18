@@ -8,28 +8,50 @@ import styles from "./EpisodeItem.module.scss";
 
 import check from "../../img/check.svg";
 
-export const EpisodeItem = ({ episode }) => {
-  const [rating, setRating] = useState(0);
-  const [isFavorite, setFavorite] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+export const EpisodeItem = ({ episode, rating, checked, onRatingChange, onEpisodeCheck }) => {
+  const [localRating, setLocalRating] = useState(rating);
+  const [localChecked, setLocalChecked] = useState(checked);
 
-  const handleRating = (rate) => {
-    setRating(rate);
+  const handleRating = async (rate) => {
+    console.log(localRating);
+    console.log(rate);
+    setLocalRating(rate);
+    onRatingChange(rate * 2, episode._id);
   };
 
-  const toggleCheck = async () => {
-    if (isChecked) {
-      const resp = await apiUser.uncheckEpisode(episode._id);
-      if (resp?.success) {
-        setIsChecked(!isChecked);
-      }
-    } else {
-      const resp = await apiUser.checkEpisode(episode._id);
-      if (resp?.success) {
-        setIsChecked(!isChecked);
-      }
+  const handleEpisodeCheck = async () => {
+    console.log(localChecked);
+    const tempChecked = !localChecked;
+    setLocalChecked(tempChecked);
+    onEpisodeCheck(episode._id, tempChecked);
+    // console.log("clicked");
+    // setIsChecked(!isChecked);
+    // if (isChecked) {
+    //   const resp = await apiUser.uncheckEpisode(episode._id);
+    //   console.log(resp);
+    //   if (resp?.status === "success") {
+    //     setIsChecked(!isChecked);
+    //   }
+    // } else {
+    //   const resp = await apiUser.checkEpisode(episode._id);
+    //   if (resp?.status === "success") {
+    //     setIsChecked(!isChecked);
+    //   }
+    // }
+    // onEpisodeCheck(episode._id);
+  };
+
+  useEffect(() => {
+    if (rating !== null && rating !== undefined) {
+      setLocalRating(rating / 2);
     }
-  };
+  }, [rating]);
+
+  useEffect(() => {
+    if (checked !== null && checked !== undefined) {
+      setLocalChecked(checked);
+    }
+  }, [checked]);
 
   const date = new Date(episode.airdate);
   const options = { day: "2-digit", month: "short", year: "numeric" };
@@ -53,6 +75,7 @@ export const EpisodeItem = ({ episode }) => {
           allowFraction={true}
           size={23}
           style={{ display: "flex", alignItems: "center" }}
+          initialValue={localRating}
         />
         <div className={styles.episode__fav}>
           <button>
@@ -60,8 +83,11 @@ export const EpisodeItem = ({ episode }) => {
           </button>
         </div>
         <div className={styles.episode__checkbox}>
-          <button className={`${styles.episodeCheck} ${isChecked ? styles.active : ""}`} onClick={toggleCheck}>
-            {isChecked ? <ReactSVG src={check} alt="check mark" /> : null}
+          <button
+            className={`${styles.episodeCheck} ${localChecked ? styles.active : ""}`}
+            onClick={handleEpisodeCheck}
+          >
+            {localChecked ? <ReactSVG src={check} alt="check mark" /> : null}
           </button>
         </div>
       </div>

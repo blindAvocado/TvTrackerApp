@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { apiShow } from "../../services/show";
@@ -13,10 +13,28 @@ export const Show = ({ user }) => {
   const { thetvdb } = useParams();
   const rating = useRef(0);
   const showId = useRef(null);
+  // const watchedEpisodes = useRef([]);
+  const [watchedEpisodes, setWatchedEpisodes] = useState([]);
 
   const [showUserData, setShowUserData] = useState(null);
   const [isFavorite, setFavorite] = useState(false);
   const [watchStatus, setWatchStatus] = useState("Not watching");
+
+  const isEpisodeWatched = (id) => {
+    // return watchedEpisodes.some((ep) => ep.episode._id == id);
+    let checked = false;
+    let rating = 0;
+
+    watchedEpisodes.forEach((ep) => {
+      // console.log(ep.episode._id == id);
+      if (ep.episode._id == id) {
+        checked = true;
+        rating = ep.rating / 2;
+      }
+    });
+
+    return [checked, rating];
+  };
 
   const getShowId = async () => {
     if (!showId.current) {
@@ -29,15 +47,33 @@ export const Show = ({ user }) => {
 
   const handleRating = async (rate) => {
     await getShowId();
-    await apiUser.rateShow(showId.current._id, rate).then(() => (rating.current = rate * 2));
-    console.log(rate * 2);
+    const obj = { rating: rate * 2 };
+    const resp = await apiUser.rateShow(showId.current._id, obj);
+    rating.current = rate * 2;
+  };
+
+  const handleEpisodeRating = async (rate, episodeId) => {
+    // await getShowId();
+    const obj = { rating: rate };
+    const resp = await apiUser.rateEpisode(episodeId, obj);
+  };
+
+  const handleEpisodeCheck = async (episodeId, checkState) => {
+    if (checkState == true) {
+      const resp = await apiUser.checkEpisode(episodeId);
+    } else if (checkState == false) {
+      const resp = await apiUser.uncheckEpisode(episodeId);
+    }
   };
 
   const getWatchedEpisodes = async () => {
     await getShowId();
     const resp = await apiUser.getWatchedEpisodes(user._id, showId.current._id);
-    if (resp && resp.status === "success") {
-      setShowUserData({ ...showUserData, resp });
+    if (resp) {
+      console.log(resp);
+      setWatchedEpisodes(resp);
+      // const obj = { watchedEpisodes: resp.watchedEpisodes };
+      // setShowUserData({ ...showUserData, ...obj });
     }
   };
 
@@ -48,9 +84,15 @@ export const Show = ({ user }) => {
     console.log(resp);
     if (resp && resp.status === "success") {
       const temp = resp.data;
-      setShowUserData({ ...showUserData, temp });
+      setShowUserData({ ...showUserData, ...temp });
       setWatchStatus(resp.data.watchStatus);
+      rating.current = resp.data.rating / 2;
     }
+  };
+
+  const getAllData = async () => {
+    await getWatchedShowData();
+    await getWatchedEpisodes();
   };
 
   const handleStatusChange = async (status) => {
@@ -60,6 +102,7 @@ export const Show = ({ user }) => {
       const resp = await apiUser.removeShowFromWatched(showId.current._id);
       if (resp && resp.status === "success") {
         setWatchStatus("Not watching");
+        rating.current = 0;
       }
     }
     const data = { status: status };
@@ -79,12 +122,11 @@ export const Show = ({ user }) => {
     show["yearEnded"] = null;
   }
 
-  useEffect(() => {
-    getWatchedEpisodes();
+  useLayoutEffect(() => {
+    // getAllData();
     getWatchedShowData();
+    getWatchedEpisodes();
   }, []);
-
-  console.log(show);
 
   const techincals = {
     жанры: show.genres.join(", "),
@@ -98,9 +140,9 @@ export const Show = ({ user }) => {
       <div className={styles.left}>
         <div className={styles.leftWrapper}>
           <div className={styles.poster}>
-            <div className={styles.heart}>
+            {/* <div className={styles.heart}>
               <img src="img/heart-outline.svg" alt="fav" />
-            </div>
+            </div> */}
             <img src={show.image.original} alt="tv show poster" />
           </div>
           <Rating
@@ -109,6 +151,7 @@ export const Show = ({ user }) => {
             allowFraction={true}
             size={35}
             style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+            initialValue={rating.current}
           />
           <div className={styles.statusBox}>
             {/* <span className={styles.status__selector}></span> */}
@@ -178,9 +221,22 @@ export const Show = ({ user }) => {
             <div className={styles.episodes__header}>Список серий</div>
             <div className={styles.episodes__wrapper}>
               <ul className={styles.episodes__list}>
-                {show.episodes.map((item) => (
-                  <EpisodeItem key={item.tvmazeId} episode={item} />
-                ))}
+                {show.episodes.map((item) => {
+                  const watchedEp = watchedEpisodes.find((ep) => ep.episode._id === item._id);
+                  const rating = watchedEp ? watchedEp.rating : 0;
+                  const checked = watchedEp ? true : false;
+
+                  return (
+                    <EpisodeItem
+                      key={item._id}
+                      episode={item}
+                      rating={rating}
+                      checked={checked}
+                      onRatingChange={handleEpisodeRating}
+                      onEpisodeCheck={handleEpisodeCheck}
+                    />
+                  );
+                })}
               </ul>
             </div>
           </div>

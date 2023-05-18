@@ -68,7 +68,7 @@
   }
 }
 
-.showDead {
+.showLabel {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,6 +76,23 @@
   padding: 0 3px;
   font-size: 7px;
   line-height: 5px;
-  background-color: rgb(75, 75, 75);
   text-transform: uppercase;
+}
+
+.showDead {
+  content: "dead";
+  background-color: rgb(75, 75, 75);
+}
+
+.showDead::before {
+  content: "dead";
+}
+
+.showOnAir {
+  content: "on air";
+  background-color: var(--checked-color);
+}
+
+.showOnAir::before {
+   content: "on air";
 }

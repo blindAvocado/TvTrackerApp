@@ -39,8 +39,6 @@ export const Profile = () => {
   const loadUser = async () => {
     const id = await apiUser.getIdByUsername(username);
 
-    console.log(id);
-
     if (id) {
       const followingUsers = await apiUser.getFollowers(id);
       const resp = await apiUser.getUserById(id);
@@ -93,8 +91,6 @@ export const Profile = () => {
       updateUser();
     }
   }, [user]);
-
-  console.log(watchedShows);
 
   if (user) {
     return (
@@ -174,7 +170,7 @@ export const Profile = () => {
                 </div>
                 <div className={`${styles.profile__showsContent} ${tabIndex === 3 ? styles.active : ""}`}>
                   {watchedShows["Watched all"]?.map((show) => (
-                    <ShowItem key={show._id} show={show.show} userId={user._id} />
+                    <ShowItem key={show._id} show={show.show} userId={user._id} rating={show.rating} />
                   ))}
                 </div>
               </div>

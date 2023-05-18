@@ -313,10 +313,8 @@ export const changeShowStatus = async (req, res) => {
 export const removeShowFromWatched = async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.userId, "watchedShows.show": req.params.showId });
-    console.log(user._doc);
 
     const showIndex = user.watchedShows.findIndex((show) => show.show.toString() === req.params.showId);
-    console.log(showIndex);
 
     await UserModel.findOneAndUpdate(
       { _id: req.userId, "watchedShows.show": req.params.showId },
@@ -386,7 +384,6 @@ export const getWatchedShowData = async (req, res) => {
     const userId = req.params.id;
     const showId = req.params.showId;
 
-    console.log(req.params.id, req.params.showId);
     const user = await UserModel.findOne({ _id: userId, "watchedShows.show": showId });
 
     if (!user) {
@@ -396,7 +393,6 @@ export const getWatchedShowData = async (req, res) => {
       });
     }
 
-    console.log(user);
     const result = user.watchedShows.find((item) => item.show.toString() === showId);
 
     res.json({ status: "success", data: result });

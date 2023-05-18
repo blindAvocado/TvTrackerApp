@@ -5,25 +5,35 @@ import { apiUser } from "../../services/user";
 
 import styles from "./ShowItem.module.scss";
 
-export const ShowItem = ({ show, userId }) => {  
+export const ShowItem = ({ show, userId }) => {
   // const watchedEpisodes = useRef(0);
   const [watchedEpisodes, setWatchedEpisodes] = useState(0);
   const loadedWatchedEpisodes = useRef(false);
-  const [rating, setRating] = useState(0);
+  const loadedUserRating = useRef(false);
+  const rating = useRef(0);
 
-  const handleRating = (rate) => {
-    setRating(rate);
-  }
+  console.log(show);
 
+  const handleRating = async (rate) => {
+    rating.current = rate;
+    const obj = { rating: rate * 2 };
+    const resp = await apiUser.rateShow(show._id, obj);
+    // console.log(resp);
+    if (resp && resp.stats === "success") {
+      rating.current = rate * 2;
+    }
+  };
 
-  switch (show.status) {
-    case "Ended":
-      show.status = "dead";
-      break;
-    default:
-      show.status = "dead";
-      break;
-  }
+  const getlabelStyleClass = () => {
+    switch (show.status) {
+      case "Running":
+        return styles.showOnAir;
+      case "Ended":
+        return styles.showDead;
+      default:
+        return styles.showDead;
+    }
+  };
 
   const getWatchedEpisodes = async () => {
     const eps = await apiUser.getWatchedEpisodes(userId, show._id);
@@ -32,10 +42,51 @@ export const ShowItem = ({ show, userId }) => {
     console.log(watchedEpisodes.current);
   };
 
+  const getUserRating = async () => {
+    const resp = await apiUser.getWatchedShow(userId, show._id);
+    console.log(resp);
+    if (resp && resp.status === "success") {
+      rating.current = resp.data.rating / 2;
+      loadedUserRating.current = true;
+      console.log(rating.current);
+    }
+  };
+
   useEffect(() => {
-    console.log(loadedWatchedEpisodes.current);
-    if (!loadedWatchedEpisodes.current) getWatchedEpisodes();
+    switch (show.status) {
+      case "Ended":
+        show.status = "dead";
+        break;
+      case "Running":
+        show.status = "on air";
+        break;
+      default:
+        show.status = "dead";
+        break;
+    }
+
+    if (!loadedWatchedEpisodes.current) {
+      getWatchedEpisodes();
+    }
   }, [loadedWatchedEpisodes.current]);
+
+  useEffect(() => {
+    switch (show.status) {
+      case "Ended":
+        show.status = "dead";
+        break;
+      case "Running":
+        show.status = "on air";
+        break;
+      default:
+        show.status = "dead";
+        break;
+    }
+
+    if (!loadedUserRating.current) {
+      getUserRating();
+    }
+  }, [rating.current]);
 
   return (
     <div className={styles.profile__showItem}>
@@ -48,10 +99,16 @@ export const ShowItem = ({ show, userId }) => {
             <Link to={`/show/${show.thetvdb}`} className={styles.profile__showTitle}>
               {show ? show.title : "ERROR"}
             </Link>
-            <div className={`${styles.profile__showStatus} ${styles.showDead}`}>{show ? show.status : "dead"}</div>
+            <div className={`${styles.showLabel} ${getlabelStyleClass()}`}></div>
           </div>
           <div className={styles.profile__showRating}>
-            <Rating onClick={handleRating} fillColor="#ff0f0f" allowFraction={true} size={25}/>
+            <Rating
+              onClick={handleRating}
+              fillColor="#ff0f0f"
+              allowFraction={true}
+              size={25}
+              initialValue={rating.current}
+            />
           </div>
         </div>
         <div className={styles.profile__showProgress}>
